@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoundU Home</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header>
+    <nav>
+      <h1>FoundU</h1>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="browse.html">Browse</a></li>
+        <li><a href="report.html">Report Item</a></li>
+        <li><a href="Login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Some Things Are Worth Finding</h2>
+    <p>Helping PRMSU students and faculty reconnect with their lost items.</p>
+    <button>Browse Items</button>
+    <button>Report Item</button>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories">
+    <h3>Browse by Category</h3>
+    <div class="category-list">
+      <div class="category">IDs</div>
+      <div class="category">Bags</div>
+      <div class="category">Gadgets</div>
+      <div class="category">Books</div>
+      <div class="category">Clothing</div>
+    </div>
+  </section>
+
+  <!-- Recent Reports -->
+  <section class="recent">
+    <h3>Recent Reports</h3>
+
+    <!-- Search Bar -->
+    <input type="text" id="searchBar" placeholder="Search items...">
+
+    <!-- Item Cards Container -->
+    <div class="item-cards-container">
+      <!-- Item Cards -->
+      <div class="item-card" data-category="ids">
+        <img src="Image_resources/wallet.jpg" alt="Black Wallet">
+        <h4>Black Wallet</h4>
+        <p>Found in Library</p>
+        <p>Finder: John Dela Cruz, Engineering</p>
+        <button>View Details</button>
+      </div>
+
+      <div class="item-card" data-category="ids">
+        <img src="Image_resources/id.jpg" alt="PRMSU ID Card">
+        <h4>PRMSU ID Card</h4>
+        <p>Lost in Cafeteria</p>
+        <p>Finder: Ana Reyes, Education</p>
+        <button>View Details</button>
+      </div>
+
+      <div class="item-card" data-category="bags">
+        <img src="Image_resources/umbrella.jpg" alt="Blue Umbrella">
+        <h4>Blue Umbrella</h4>
+        <p>Found in Gym</p>
+        <p>Finder: Mark Santos, Arts & Sciences</p>
+        <button>View Details</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 FoundU | About | Contact | Privacy</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

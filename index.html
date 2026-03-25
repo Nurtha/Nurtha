@@ -1,87 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FoundU Home</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReturnMate | Community Lost & Found</title>
+
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .item-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+            .item-card:hover {
+                transform: translateY(-4px);
+            }
+
+        /* Smooth tab switching */
+        .view-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+            .view-content.active {
+                display: block;
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-<body>
-  <!-- Header / Navigation -->
-  <header>
-    <nav>
-      <h1>FoundU</h1>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="browse.html">Browse</a></li>
-        <li><a href="report.html">Report Item</a></li>
-        <li><a href="Login.html">Login</a></li>
-      </ul>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="showView('home')">
+                    <div class="bg-indigo-600 p-2 rounded-xl text-white">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-slate-800">ReturnMate</span>
+                </div>
+
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <button onclick="showView('home')" id="btn-home" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-indigo-50 text-indigo-600">
+                        Browse
+                    </button>
+                    <button onclick="showView('report')" id="btn-report" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:bg-slate-100">
+                        Report Item
+                    </button>
+                </div>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h2>Some Things Are Worth Finding</h2>
-    <p>Helping PRMSU students and faculty reconnect with their lost items.</p>
-    <button>Browse Items</button>
-    <button>Report Item</button>
-  </section>
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
 
-  <!-- Categories -->
-  <section class="categories">
-    <h3>Browse by Category</h3>
-    <div class="category-list">
-      <div class="category">IDs</div>
-      <div class="category">Bags</div>
-      <div class="category">Gadgets</div>
-      <div class="category">Books</div>
-      <div class="category">Clothing</div>
+        <!-- HOME VIEW -->
+        <div id="view-home" class="view-content active space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-900">Community Board</h1>
+                    <p class="text-slate-500">Helping neighbors find what they've lost.</p>
+                </div>
+
+                <div class="relative w-full md:w-80">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="search-bar" oninput="renderItems()" placeholder="Search items or locations..."
+                           class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm">
+                </div>
+            </div>
+
+            <!-- Filter Chips -->
+            <div class="flex flex-wrap gap-2 pb-2">
+                <select id="filter-type" onchange="renderItems()" class="bg-white border border-slate-200 text-slate-600 text-sm rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                    <option value="all">All Types</option>
+                    <option value="lost">Lost</option>
+                    <option value="found">Found</option>
+                </select>
+                <select id="filter-cat" onchange="renderItems()" class="bg-white border border-slate-200 text-slate-600 text-sm rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                    <option value="all">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="pets">Pets</option>
+                    <option value="keys">Keys/Wallets</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- Grid -->
+            <div id="items-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Items injected here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="no-results" class="hidden py-20 text-center bg-white rounded-3xl border-2 border-dashed border-slate-200">
+                <i class="fas fa-box-open text-4xl text-slate-300 mb-3"></i>
+                <p class="text-slate-500 font-medium">No items match your search.</p>
+            </div>
+        </div>
+
+        <!-- REPORT VIEW -->
+        <div id="view-report" class="view-content max-w-2xl mx-auto">
+            <div class="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100">
+                <h2 class="text-2xl font-bold mb-6">Create a Report</h2>
+
+                <form id="report-form" class="space-y-5" onsubmit="handleFormSubmit(event)">
+                    <div class="grid grid-cols-2 gap-4">
+                        <button type="button" onclick="setFormType('lost')" id="form-type-lost" class="py-3 rounded-xl border-2 font-bold transition-all border-red-500 bg-red-50 text-red-600">
+                            I Lost It
+                        </button>
+                        <button type="button" onclick="setFormType('found')" id="form-type-found" class="py-3 rounded-xl border-2 font-bold transition-all border-slate-100 bg-white text-slate-400">
+                            I Found It
+                        </button>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-slate-700">Item Name</label>
+                        <input type="text" id="in-title" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-slate-700">Category</label>
+                            <select id="in-cat" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+                                <option value="electronics">Electronics</option>
+                                <option value="pets">Pets</option>
+                                <option value="keys">Keys/Wallets</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold text-slate-700">Date</label>
+                            <input type="date" id="in-date" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-slate-700">Specific Location</label>
+                        <input type="text" id="in-loc" required placeholder="e.g. Near the park entrance" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-semibold text-slate-700">Description</label>
+                        <textarea id="in-desc" rows="3" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none resize-none"></textarea>
+                    </div>
+
+                    <div class="space-y-1 pt-4 border-t">
+                        <label class="text-sm font-semibold text-slate-700">How to contact you?</label>
+                        <input type="text" id="in-contact" required placeholder="Phone number or Social handle" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" onclick="showView('home')" class="flex-1 py-3 font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
+                        <button type="submit" class="flex-1 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all">Submit Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Feedback -->
+    <div id="alert-box" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl transition-all opacity-0 translate-y-10 pointer-events-none">
+        <span id="alert-msg">Post updated successfully!</span>
     </div>
-  </section>
 
-  <!-- Recent Reports -->
-  <section class="recent">
-    <h3>Recent Reports</h3>
+    <script>
+        // Database
+        let items = [
+            { id: 1, type: 'lost', title: 'Fluffy White Cat', cat: 'pets', loc: 'Oak Ridge Area', date: '2024-05-10', desc: 'Responds to "Snow", has a blue collar.', contact: '@user123' },
+            { id: 2, type: 'found', title: 'Car Keys (Toyota)', cat: 'keys', loc: 'Starbucks Parking', date: '2024-05-12', desc: 'Found near the trash bin, black fob.', contact: '555-0199' },
+            { id: 3, type: 'lost', title: 'Blue Backpack', cat: 'other', loc: 'University Library', date: '2024-05-11', desc: 'Contains textbooks and a grey hoodie.', contact: 'Library Front Desk' }
+        ];
 
-    <!-- Search Bar -->
-    <input type="text" id="searchBar" placeholder="Search items...">
+        let currentFormType = 'lost';
 
-    <!-- Item Cards Container -->
-    <div class="item-cards-container">
-      <!-- Item Cards -->
-      <div class="item-card" data-category="ids">
-        <img src="Image_resources/wallet.jpg" alt="Black Wallet">
-        <h4>Black Wallet</h4>
-        <p>Found in Library</p>
-        <p>Finder: John Dela Cruz, Engineering</p>
-        <button>View Details</button>
-      </div>
+        // View Logic
+        function showView(view) {
+            document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-' + view).classList.add('active');
 
-      <div class="item-card" data-category="ids">
-        <img src="Image_resources/id.jpg" alt="PRMSU ID Card">
-        <h4>PRMSU ID Card</h4>
-        <p>Lost in Cafeteria</p>
-        <p>Finder: Ana Reyes, Education</p>
-        <button>View Details</button>
-      </div>
+            // Style buttons
+            const isHome = view === 'home';
+            document.getElementById('btn-home').className = isHome ? 'px-4 py-2 rounded-lg text-sm font-semibold bg-indigo-50 text-indigo-600' : 'px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100';
+            document.getElementById('btn-report').className = !isHome ? 'px-4 py-2 rounded-lg text-sm font-semibold bg-indigo-50 text-indigo-600' : 'px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100';
 
-      <div class="item-card" data-category="bags">
-        <img src="Image_resources/umbrella.jpg" alt="Blue Umbrella">
-        <h4>Blue Umbrella</h4>
-        <p>Found in Gym</p>
-        <p>Finder: Mark Santos, Arts & Sciences</p>
-        <button>View Details</button>
-      </div>
-    </div>
-  </section>
+            if(isHome) renderItems();
+        }
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2026 FoundU | About | Contact | Privacy</p>
-  </footer>
+        function setFormType(type) {
+            currentFormType = type;
+            const lostBtn = document.getElementById('form-type-lost');
+            const foundBtn = document.getElementById('form-type-found');
 
-  <!-- JavaScript -->
-  <script src="script.js"></script>
+            if(type === 'lost') {
+                lostBtn.className = "py-3 rounded-xl border-2 font-bold transition-all border-red-500 bg-red-50 text-red-600";
+                foundBtn.className = "py-3 rounded-xl border-2 font-bold transition-all border-slate-100 bg-white text-slate-400";
+            } else {
+                foundBtn.className = "py-3 rounded-xl border-2 font-bold transition-all border-emerald-500 bg-emerald-50 text-emerald-600";
+                lostBtn.className = "py-3 rounded-xl border-2 font-bold transition-all border-slate-100 bg-white text-slate-400";
+            }
+        }
+
+        // Render Cards
+        function renderItems() {
+            const grid = document.getElementById('items-grid');
+            const search = document.getElementById('search-bar').value.toLowerCase();
+            const typeFilter = document.getElementById('filter-type').value;
+            const catFilter = document.getElementById('filter-cat').value;
+
+            const filtered = items.filter(i => {
+                const matchesSearch = i.title.toLowerCase().includes(search) || i.loc.toLowerCase().includes(search);
+                const matchesType = typeFilter === 'all' || i.type === typeFilter;
+                const matchesCat = catFilter === 'all' || i.cat === catFilter;
+                return matchesSearch && matchesType && matchesCat;
+            });
+
+            if(filtered.length === 0) {
+                grid.innerHTML = '';
+                document.getElementById('no-results').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('no-results').classList.add('hidden');
+            grid.innerHTML = filtered.map(item => `
+                <div class="item-card bg-white p-5 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-indigo-100/50">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${item.type === 'lost' ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'}">
+                            ${item.type}
+                        </span>
+                        <div class="text-slate-400 text-xs">
+                            <i class="far fa-calendar mr-1"></i> ${item.date}
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">${item.title}</h3>
+                    <p class="text-slate-500 text-sm mb-4 line-clamp-2">${item.desc}</p>
+
+                    <div class="space-y-2 mb-4 pt-3 border-t border-slate-50">
+                        <div class="flex items-center text-xs text-slate-500">
+                            <i class="fas fa-map-marker-alt w-5 text-indigo-400"></i> ${item.loc}
+                        </div>
+                        <div class="flex items-center text-xs text-slate-500">
+                            <i class="fas fa-user-circle w-5 text-indigo-400"></i> Contact: ${item.contact}
+                        </div>
+                    </div>
+                    <button onclick="showAlert('Contacting reporter...')" class="w-full py-2 text-xs font-bold text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">
+                        View Details
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Form Logic
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                type: currentFormType,
+                title: document.getElementById('in-title').value,
+                cat: document.getElementById('in-cat').value,
+                loc: document.getElementById('in-loc').value,
+                date: document.getElementById('in-date').value,
+                desc: document.getElementById('in-desc').value,
+                contact: document.getElementById('in-contact').value
+            };
+
+            items.unshift(newItem);
+            document.getElementById('report-form').reset();
+            setFormType('lost');
+            showAlert('Your report has been posted!');
+            showView('home');
+        }
+
+        // Utils
+        function showAlert(msg) {
+            const box = document.getElementById('alert-box');
+            document.getElementById('alert-msg').innerText = msg;
+            box.style.opacity = '1';
+            box.style.transform = 'translate(-50%, 0)';
+            setTimeout(() => {
+                box.style.opacity = '0';
+                box.style.transform = 'translate(-50%, 40px)';
+            }, 3000);
+        }
+
+        // Start
+        window.onload = () => {
+            document.getElementById('in-date').valueAsDate = new Date();
+            renderItems();
+        };
+    </script>
 </body>
 </html>
