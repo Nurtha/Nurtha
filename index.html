@@ -15,19 +15,296 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
+    :root {
+      --ios-bg-0: #eef3ff;
+      --ios-bg-1: #f7fbff;
+      --ios-blue: #0a84ff;
+      --ios-indigo: #5e5ce6;
+      --ios-cyan: #34c8ff;
+      --ios-red: #ff453a;
+      --ios-green: #30d158;
+      --ios-surface: rgba(255, 255, 255, 0.72);
+      --ios-border: rgba(255, 255, 255, 0.66);
+      --ios-shadow: 0 24px 50px rgba(26, 52, 94, 0.14);
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
+      background:
+        radial-gradient(circle at 12% -8%, #c8deff 0%, transparent 36%),
+        radial-gradient(circle at 88% 8%, #c7f0ff 0%, transparent 34%),
+        linear-gradient(180deg, var(--ios-bg-0), var(--ios-bg-1));
+      min-height: 100vh;
+    }
+
+    body.splash-active nav,
+    body.splash-active main,
+    body.splash-active #alert-box {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    nav,
+    main,
+    #alert-box {
+      transition: opacity 0.45s ease;
+    }
+
+    .title-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(131, 180, 255, 0.48) 0%, transparent 36%),
+        radial-gradient(circle at 88% 86%, rgba(97, 226, 255, 0.35) 0%, transparent 38%),
+        linear-gradient(145deg, #f7fbff, #e8f1ff 58%, #f7fdff);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .title-splash.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .title-splash.fade-out .title-shell {
+      opacity: 0;
+      transform: translateY(-16px) scale(0.96);
+      filter: blur(2px);
+    }
+
+    .title-glow {
+      position: absolute;
+      width: min(66vw, 660px);
+      height: min(66vw, 660px);
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(96, 137, 255, 0.3), rgba(52, 200, 255, 0.16) 45%, transparent 70%);
+      filter: blur(6px);
+      animation: haloFloat 5.4s ease-in-out infinite;
+    }
+
+    .title-ring {
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 0 40px rgba(126, 167, 255, 0.12);
+      backdrop-filter: blur(2px);
+    }
+
+    .title-ring.ring-a {
+      width: 280px;
+      height: 280px;
+      animation: ringSpinA 10s linear infinite;
+    }
+
+    .title-ring.ring-b {
+      width: 360px;
+      height: 360px;
+      border-color: rgba(125, 203, 255, 0.45);
+      animation: ringSpinB 14s linear infinite;
+    }
+
+    .title-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .spark {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #ffffff 0%, #c7e5ff 55%, transparent 80%);
+      opacity: 0;
+      animation: sparkDrift 4.8s ease-in-out infinite;
+    }
+
+    .spark.s1 {
+      top: 24%;
+      left: 26%;
+      animation-delay: -0.4s;
+    }
+
+    .spark.s2 {
+      top: 28%;
+      right: 30%;
+      animation-delay: -1.2s;
+    }
+
+    .spark.s3 {
+      top: 62%;
+      left: 32%;
+      animation-delay: -2.4s;
+    }
+
+    .spark.s4 {
+      top: 65%;
+      right: 28%;
+      animation-delay: -3.1s;
+    }
+
+    .title-shell {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+      text-align: center;
+      animation: titleRise 1.1s ease;
+      transition: transform 0.6s ease, opacity 0.6s ease, filter 0.6s ease;
+    }
+
+    .title-mark {
+      width: 86px;
+      height: 86px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 30px;
+      background: linear-gradient(135deg, var(--ios-indigo), var(--ios-blue));
+      box-shadow: 0 20px 40px rgba(58, 99, 219, 0.33);
+      animation: titlePulse 1.8s ease-in-out infinite;
+    }
+
+    .title-text {
+      font-size: clamp(2.1rem, 5.8vw, 3.2rem);
+      font-weight: 700;
+      color: #1a2d4f;
+      letter-spacing: -0.03em;
+      background: linear-gradient(120deg, #17305c, #25549e 28%, #1a2d4f 58%, #3d72be 74%, #16315e);
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShimmer 3.6s linear infinite;
+    }
+
+    .title-subtext {
+      color: #5f7193;
+      font-weight: 600;
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(4px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.58;
+      animation: drift 11s ease-in-out infinite;
+    }
+
+    .orb-a {
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle at 35% 35%, #8cc5ff, #4c8fff);
+      top: 10%;
+      right: -90px;
+    }
+
+    .orb-b {
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle at 35% 35%, #81f1ff, #1da8ff);
+      bottom: 6%;
+      left: -90px;
+      animation-delay: -4s;
+    }
+
+    .ios-nav {
+      background: rgba(246, 250, 255, 0.72);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.72);
+    }
+
+    .ios-glass {
+      background: var(--ios-surface);
+      border: 1px solid var(--ios-border);
+      box-shadow: var(--ios-shadow);
+      backdrop-filter: blur(11px);
+    }
+
+    .brand-chip {
+      background: linear-gradient(140deg, var(--ios-indigo), var(--ios-blue));
+      box-shadow: 0 12px 24px rgba(73, 109, 245, 0.35);
+    }
+
+    .nav-btn {
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: 0.22s ease;
+    }
+
+    .nav-btn-active {
+      color: #ffffff;
+      background: linear-gradient(135deg, #0a84ff, #4ca6ff);
+      box-shadow: 0 10px 18px rgba(10, 132, 255, 0.34);
+    }
+
+    .nav-btn-inactive {
+      color: #536281;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4.4vw, 3.3rem);
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-sub {
+      color: #5e6d8d;
+      font-weight: 500;
+    }
+
+    .ios-input,
+    .ios-select,
+    #view-report input,
+    #view-report select,
+    #view-report textarea {
+      background: rgba(255, 255, 255, 0.74) !important;
+      border: 1px solid rgba(206, 221, 244, 0.95) !important;
+      border-radius: 14px !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ios-input:focus,
+    .ios-select:focus,
+    #view-report input:focus,
+    #view-report select:focus,
+    #view-report textarea:focus {
+      border-color: rgba(10, 132, 255, 0.6) !important;
+      box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.16);
+      outline: none;
+    }
+
+    .ios-panel {
+      border-radius: 30px;
     }
 
     .item-card {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 16px 34px rgba(20, 46, 90, 0.12);
     }
 
     .item-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px) scale(1.01);
     }
 
-    /* Smooth tab switching */
+
     .view-content {
       display: none;
       animation: fadeIn 0.4s ease-out;
@@ -48,85 +325,312 @@
         transform: translateY(0);
       }
     }
+
+    @keyframes drift {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes titleRise {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes titlePulse {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.06);
+      }
+    }
+
+    @keyframes haloFloat {
+      0%,
+      100% {
+        transform: translateY(0px) scale(1);
+      }
+
+      50% {
+        transform: translateY(-10px) scale(1.03);
+      }
+    }
+
+    @keyframes ringSpinA {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes ringSpinB {
+      from {
+        transform: rotate(360deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
+    @keyframes sparkDrift {
+      0%,
+      100% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.7);
+      }
+
+      35% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      70% {
+        opacity: 0.65;
+        transform: translateY(-12px) scale(0.85);
+      }
+    }
+
+    @keyframes textShimmer {
+      from {
+        background-position: 0% 50%;
+      }
+
+      to {
+        background-position: 220% 50%;
+      }
+    }
+
+    .creator-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 16px 34px rgba(20, 46, 90, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 2rem;
+    }
+
+    .creator-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 24px 48px rgba(20, 46, 90, 0.18);
+    }
+
+    .creator-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ios-blue), var(--ios-cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 12px 24px rgba(10, 132, 255, 0.3);
+      overflow: hidden;
+    }
+
+    .creator-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .creator-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    .creator-position {
+      font-size: 0.82rem;
+      color: #0a84ff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.45rem;
+    }
+
+    .creator-bio {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+      min-height: 2.5rem;
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .creator-meta {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 0.5rem;
+    }
+
+    .creator-contact {
+      font-size: 0.75rem;
+      color: var(--ios-blue);
+      word-break: break-all;
+      font-weight: 600;
+    }
+
+    .item-skeleton {
+      background: linear-gradient(90deg, rgba(226, 232, 240, 0.6), rgba(241, 245, 249, 0.95), rgba(226, 232, 240, 0.6));
+      background-size: 220% 100%;
+      animation: skeletonPulse 1.4s ease-in-out infinite;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .safety-list li {
+      position: relative;
+      padding-left: 1.2rem;
+    }
+
+    .safety-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #0a84ff;
+      font-weight: 800;
+    }
+
+    .photo-thumb {
+      width: 100%;
+      height: 7rem;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid rgba(203, 213, 225, 0.8);
+    }
+
+
+    @keyframes skeletonPulse {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .title-glow,
+      .title-ring,
+      .title-mark,
+      .title-shell,
+      .title-text,
+      .spark {
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 
-<body class="bg-slate-50 text-slate-900 min-h-screen">
+<body class="text-slate-900 min-h-screen splash-active">
 
-  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+  <div id="title-splash" class="title-splash" aria-label="FoundU title page">
+    <div class="title-glow" aria-hidden="true"></div>
+    <div class="title-ring ring-a" aria-hidden="true"></div>
+    <div class="title-ring ring-b" aria-hidden="true"></div>
+    <div class="title-particles" aria-hidden="true">
+      <span class="spark s1"></span>
+      <span class="spark s2"></span>
+      <span class="spark s3"></span>
+      <span class="spark s4"></span>
+    </div>
+    <div class="title-shell">
+      <div class="title-mark">
+        <i class="fas fa-hand-holding-heart"></i>
+      </div>
+      <h1 class="title-text">FoundU</h1>
+      <p class="title-subtext">Lost and Found Platform</p>
+    </div>
+  </div>
 
-  <script type="module">
-    const firebaseConfig = {
-      apiKey: "AIzaSyAE_K9j8DNe2csv0MnhKiaW3uEJsZbF9Wo",
-      authDomain: "found-u-51163.firebaseapp.com",
-      projectId: "found-u-51163",
-      storageBucket: "found-u-51163.firebasestorage.app",
-      messagingSenderId: "394463225459",
-      appId: "1:394463225459:web:90a55bfe013a12a53d6c06"
-    };
-
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-  </script>
-
-
-
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
 
   <!-- Navigation -->
-  <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+  <nav class="ios-nav sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="flex justify-between h-16 items-center">
         <div class="flex items-center gap-2 cursor-pointer" onclick="showView('home')">
-          <div class="bg-indigo-600 p-2 rounded-xl text-white">
+          <div class="brand-chip p-2 rounded-xl text-white">
             <i class="fas fa-hand-holding-heart"></i>
           </div>
-          <span class="text-xl font-bold tracking-tight text-slate-800">FoundU</span>
+          <a href="Login.html">
+            <span class="text-xl font-bold tracking-tight text-slate-800">FoundU</span>
+          </a>
         </div>
 
-        <div class="flex items-center gap-2 sm:gap-4">
+        <div class="ios-glass flex items-center gap-2 p-1 rounded-full sm:gap-3">
           <button onclick="showView('home')" id="btn-home"
-            class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-indigo-50 text-indigo-600">
+            class="nav-btn nav-btn-active">
             Browse
           </button>
           <button onclick="showView('report')" id="btn-report"
-            class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:bg-slate-100">
+            class="nav-btn nav-btn-inactive">
             Report Item
+          </button>
+          <button onclick="showView('creators')" id="btn-creators"
+            class="nav-btn nav-btn-inactive">
+            Creators
           </button>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 relative z-10">
 
     <!-- HOME VIEW -->
     <div id="view-home" class="view-content active space-y-6">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-bold text-slate-900">PRMSU</h1>
-          <p class="text-slate-500">Some Things Are Worth Finding</p>
+          <h1 class="hero-title font-bold text-slate-900">Find Fast. Return Smarter.</h1>
+          <p class="hero-sub">PRMSU Lost and Found</p>
         </div>
 
         <div class="relative w-full md:w-80">
           <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
           <input type="text" id="search-bar" oninput="renderItems()" placeholder="Search items or locations..."
-            class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm">
+            class="ios-input w-full pl-10 pr-4 py-2 outline-none transition-all shadow-sm">
         </div>
       </div>
 
       <!-- Filter Chips -->
       <div class="flex flex-wrap gap-2 pb-2">
         <select id="filter-type" onchange="renderItems()"
-          class="bg-white border border-slate-200 text-slate-600 text-sm rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+          class="ios-select text-slate-600 text-sm rounded-lg px-3 py-2 outline-none shadow-sm">
           <option value="all">All Types</option>
           <option value="lost">Lost</option>
           <option value="found">Found</option>
         </select>
         <select id="filter-cat" onchange="renderItems()"
-          class="bg-white border border-slate-200 text-slate-600 text-sm rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm">
+          class="ios-select text-slate-600 text-sm rounded-lg px-3 py-2 outline-none shadow-sm">
           <option value="all">All Categories</option>
           <option value="electronics">Electronics</option>
           <option value="pets">Pets</option>
@@ -136,21 +640,44 @@
       </div>
 
       <!-- Grid -->
+      <div id="items-loading" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" aria-live="polite">
+        <div class="item-skeleton rounded-3xl h-64"></div>
+        <div class="item-skeleton rounded-3xl h-64"></div>
+        <div class="item-skeleton rounded-3xl h-64"></div>
+      </div>
+
+      <div id="items-error" class="hidden py-8 text-center ios-glass rounded-3xl border border-red-100">
+        <p class="text-red-600 font-semibold mb-3">Could not load items right now.</p>
+        <button onclick="loadItems()" class="px-4 py-2 text-sm font-bold text-white rounded-lg"
+          style="background:linear-gradient(135deg, #ef4444, #f97316);">Retry</button>
+      </div>
+
       <div id="items-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Items injected here -->
       </div>
 
       <!-- Empty State -->
       <div id="no-results"
-        class="hidden py-20 text-center bg-white rounded-3xl border-2 border-dashed border-slate-200">
+        class="hidden py-20 text-center ios-glass rounded-3xl border-2 border-dashed border-slate-200">
         <i class="fas fa-box-open text-4xl text-slate-300 mb-3"></i>
         <p class="text-slate-500 font-medium">No items match your search.</p>
       </div>
+
+      <section class="ios-glass rounded-3xl p-6 border border-slate-100">
+        <h3 class="text-lg font-bold text-slate-800 mb-3">Safety Tips and Anti-Scam Reminders</h3>
+        <ul class="safety-list space-y-2 text-sm text-slate-600">
+          <li>Meet in public campus areas and avoid isolated places during handovers.</li>
+          <li>Do not share full IDs, passwords, or one-time codes to claim items.</li>
+          <li>Ask for proof of ownership details before returning valuables.</li>
+          <li>Never send money to process a claim. FoundU does not charge return fees.</li>
+          <li>Report suspicious behavior to admin immediately.</li>
+        </ul>
+      </section>
     </div>
 
     <!-- REPORT VIEW -->
     <div id="view-report" class="view-content max-w-2xl mx-auto">
-      <div class="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100">
+      <div class="ios-panel ios-glass p-8 rounded-3xl border border-slate-100">
         <h2 class="text-2xl font-bold mb-6">Create a Report</h2>
 
         <form id="report-form" class="space-y-5" onsubmit="handleFormSubmit(event)">
@@ -168,13 +695,13 @@
           <div class="space-y-1">
             <label class="text-sm font-semibold text-slate-700">Item Name</label>
             <input type="text" id="in-title" required
-              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+              class="w-full p-3 outline-none">
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="space-y-1">
               <label class="text-sm font-semibold text-slate-700">Category</label>
-              <select id="in-cat" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+              <select id="in-cat" class="w-full p-3 outline-none">
                 <option value="electronics">Electronics</option>
                 <option value="pets">Pets</option>
                 <option value="keys">Keys/Wallets</option>
@@ -184,36 +711,63 @@
             <div class="space-y-1">
               <label class="text-sm font-semibold text-slate-700">Date</label>
               <input type="date" id="in-date" required
-                class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+                class="w-full p-3 outline-none">
             </div>
           </div>
 
           <div class="space-y-1">
             <label class="text-sm font-semibold text-slate-700">Location</label>
             <input type="text" id="in-loc" required placeholder="e.g. Near the park entrance"
-              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+              class="w-full p-3 outline-none">
           </div>
 
           <div class="space-y-1">
             <label class="text-sm font-semibold text-slate-700">Description</label>
             <textarea id="in-desc" rows="3" required
-              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none resize-none"></textarea>
+              class="w-full p-3 outline-none resize-none"></textarea>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-sm font-semibold text-slate-700">Photo (Optional)</label>
+            <div class="relative">
+              <input type="file" id="in-photo" accept="image/jpeg,image/png"
+                class="w-full p-3 outline-none cursor-pointer">
+              <p class="text-xs text-slate-500 mt-1">JPEG or PNG, max 5MB.</p>
+            </div>
+            <div id="photo-preview" class="mt-2 hidden">
+              <img id="preview-img" class="w-full h-48 object-cover rounded-lg" />
+              <button type="button" onclick="clearPhotoPreview()" 
+                class="mt-2 px-3 py-1 text-xs bg-slate-200 text-slate-700 rounded">Remove Photo</button>
+            </div>
           </div>
 
           <div class="space-y-1 pt-4 border-t">
             <label class="text-sm font-semibold text-slate-700">How to contact you?</label>
             <input type="text" id="in-contact" required placeholder="Phone number or Social handle"
-              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+              class="w-full p-3 outline-none">
           </div>
 
           <div class="flex gap-3 pt-4">
             <button type="button" onclick="showView('home')"
               class="flex-1 py-3 font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
             <button type="submit"
-              class="flex-1 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all">Submit
+              class="flex-1 py-3 text-white font-bold rounded-xl shadow-lg transition-all"
+              style="background:linear-gradient(135deg, var(--ios-indigo), var(--ios-blue)); box-shadow:0 16px 26px rgba(74, 107, 235, 0.3);">Submit
               Post</button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- CREATORS VIEW -->
+    <div id="view-creators" class="view-content space-y-8">
+      <div>
+        <h1 class="hero-title font-bold text-slate-900 mb-2">Meet Our Team</h1>
+        <p class="hero-sub">The talented people behind FoundU</p>
+      </div>
+
+      <div id="creators-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Creators injected here -->
       </div>
     </div>
   </main>
@@ -225,14 +779,198 @@
   </div>
 
   <script>
-    // Database !IMPORTANT: This is just a placeholder. In a real application, this data would come from a backend server or database.
-    let items = [
-      { id: 1, type: 'lost', title: 'Fluffy White Cat', cat: 'pets', loc: 'Oak Ridge Area', date: '2024-05-10', desc: 'Responds to "Snow", has a blue collar.', contact: '@user123' },
-      { id: 2, type: 'found', title: 'Car Keys (Toyota)', cat: 'keys', loc: 'Starbucks Parking', date: '2024-05-12', desc: 'Found near the trash bin, black fob.', contact: '555-0199' },
-      { id: 3, type: 'lost', title: 'Blue Backpack', cat: 'other', loc: 'University Library', date: '2024-05-11', desc: 'Contains textbooks and a grey hoodie.', contact: 'Library Front Desk' }
-    ];
+    let items = [];
+    let API_BASE = '';
+    let CSRF_TOKEN = '';
+    const API_BASE_STORAGE_KEY = 'founduApiBase';
+
+    function getApiCandidates() {
+      const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+      const host = window.location.hostname;
+      const savedBase = (localStorage.getItem(API_BASE_STORAGE_KEY) || '').trim();
+
+      const isLocalPage = host === 'localhost' || host === '127.0.0.1';
+      const candidates = isLocalPage
+        ? [`${protocol}//${host}:3000`, `${protocol}//${host}`, 'http://localhost:3000', 'http://127.0.0.1:3000', savedBase, '']
+        : [savedBase, ''];
+
+      if (host) {
+        candidates.push(`${protocol}//${host}`);
+        candidates.push(`${protocol}//${host}:3000`);
+      }
+
+      candidates.push('http://localhost:3000');
+      candidates.push('http://127.0.0.1:3000');
+
+      return [...new Set(candidates.filter(Boolean))];
+    }
+
+    async function tryApiBase(base) {
+      const response = await fetch(`${base}/api/health`, {
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error(`API health check failed (${response.status})`);
+      }
+
+      API_BASE = base;
+      localStorage.setItem(API_BASE_STORAGE_KEY, base);
+      console.log('[frontend] Connected API base:', API_BASE || '(same-origin)');
+    }
+
+    async function resolveApiBase() {
+      const candidates = getApiCandidates();
+
+      for (const base of candidates) {
+        try {
+          await tryApiBase(base);
+          return;
+        } catch (error) {
+          // Try next candidate.
+        }
+      }
+
+      const savedBase = (localStorage.getItem(API_BASE_STORAGE_KEY) || '').trim();
+      const customBaseInput = prompt(
+        'Cannot auto-detect API server. Enter API URL (e.g. https://xxxx.ngrok-free.app or http://localhost:3000):',
+        savedBase || 'http://localhost:3000'
+      );
+
+      if (customBaseInput === null) {
+        throw new Error('API server URL is required');
+      }
+
+      const customBase = customBaseInput.trim().replace(/\/$/, '');
+      if (!customBase) {
+        throw new Error('API server URL is required');
+      }
+
+      await tryApiBase(customBase);
+    }
+
+    async function fetchCsrfToken() {
+      const response = await fetch(`${API_BASE}/api/csrf-token`, {
+        credentials: 'include'
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to fetch CSRF token (${response.status}).`);
+      }
+
+      const payload = await response.json();
+      CSRF_TOKEN = payload.token || '';
+
+      if (!CSRF_TOKEN) {
+        throw new Error('CSRF token was not provided by the server.');
+      }
+    }
+
+    async function apiFetch(path, options = {}) {
+      const method = (options.method || 'GET').toUpperCase();
+      const headers = { ...(options.headers || {}) };
+
+      if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+        headers['X-CSRF-Token'] = CSRF_TOKEN;
+        if (options.body && !headers['Content-Type']) {
+          headers['Content-Type'] = 'application/json';
+        }
+      }
+
+      return fetch(`${API_BASE}${path}`, {
+        ...options,
+        method,
+        headers,
+        credentials: 'include'
+      });
+    }
 
     let currentFormType = 'lost';
+
+    let photoBase64 = '';
+
+    function renderPhotoPreviews() {
+      const preview = document.getElementById('photo-preview');
+
+      if (!photoBase64) {
+        preview.classList.add('hidden');
+        document.getElementById('preview-img').src = '';
+        return;
+      }
+
+      preview.classList.remove('hidden');
+      document.getElementById('preview-img').src = photoBase64;
+    }
+
+    function compressImage(file, maxWidth = 1280, maxHeight = 1280, quality = 0.82) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          img.src = reader.result;
+        };
+
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth || height > maxHeight) {
+            const ratio = Math.min(maxWidth / width, maxHeight / height);
+            width = Math.round(width * ratio);
+            height = Math.round(height * ratio);
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+
+          const context = canvas.getContext('2d');
+          context.drawImage(img, 0, 0, width, height);
+
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+
+        img.onerror = () => reject(new Error('Failed to process image'));
+        reader.onerror = () => reject(new Error('Failed to read image'));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handlePhotoInputChange(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) {
+        event.target.value = '';
+        return;
+      }
+
+      if (!file.type.match(/image\/(jpeg|png)/)) {
+        showAlert('Only JPEG and PNG formats are supported');
+        event.target.value = '';
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        showAlert('Photo must be less than 5MB');
+        event.target.value = '';
+        return;
+      }
+
+      try {
+        photoBase64 = await compressImage(file);
+        event.target.value = '';
+        renderPhotoPreviews();
+      } catch (error) {
+        showAlert('Failed to process selected image.');
+      }
+    }
+
+    function clearPhotoPreview() {
+      photoBase64 = '';
+      document.getElementById('in-photo').value = '';
+      renderPhotoPreviews();
+    }
+
+    document.getElementById('in-photo').addEventListener('change', handlePhotoInputChange);
 
     // View Logic
     function showView(view) {
@@ -241,10 +979,15 @@
 
       // Style buttons
       const isHome = view === 'home';
-      document.getElementById('btn-home').className = isHome ? 'px-4 py-2 rounded-lg text-sm font-semibold bg-indigo-50 text-indigo-600' : 'px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100';
-      document.getElementById('btn-report').className = !isHome ? 'px-4 py-2 rounded-lg text-sm font-semibold bg-indigo-50 text-indigo-600' : 'px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100';
+      const isReport = view === 'report';
+      const isCreators = view === 'creators';
+      
+      document.getElementById('btn-home').className = isHome ? 'nav-btn nav-btn-active' : 'nav-btn nav-btn-inactive';
+      document.getElementById('btn-report').className = isReport ? 'nav-btn nav-btn-active' : 'nav-btn nav-btn-inactive';
+      document.getElementById('btn-creators').className = isCreators ? 'nav-btn nav-btn-active' : 'nav-btn nav-btn-inactive';
 
       if (isHome) renderItems();
+      if (isCreators) renderCreators();
     }
 
     function setFormType(type) {
@@ -261,9 +1004,67 @@
       }
     }
 
+    function setItemsLoadingState(isLoading) {
+      document.getElementById('items-loading').classList.toggle('hidden', !isLoading);
+      document.getElementById('items-grid').classList.toggle('hidden', isLoading);
+      document.getElementById('items-error').classList.add('hidden');
+      document.getElementById('no-results').classList.add('hidden');
+    }
+
+    function setItemsErrorState() {
+      document.getElementById('items-loading').classList.add('hidden');
+      document.getElementById('items-grid').classList.add('hidden');
+      document.getElementById('no-results').classList.add('hidden');
+      document.getElementById('items-error').classList.remove('hidden');
+    }
+
+    function extractItemPhotos(item) {
+      if (!item) {
+        return [];
+      }
+
+      if (Array.isArray(item.photos) && item.photos.length > 0) {
+        return item.photos.filter((photo) => /^data:image\/(jpeg|png);base64,/i.test((photo || '').toString()));
+      }
+
+      const tryParsePhotoString = (value) => {
+        const raw = (value || '').toString().trim();
+        if (!raw) {
+          return [];
+        }
+
+        if (raw.startsWith('[')) {
+          try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+              return parsed.filter((entry) => /^data:image\/(jpeg|png);base64,/i.test((entry || '').toString()));
+            }
+          } catch (error) {
+            return [];
+          }
+        }
+
+        if (/^data:image\/(jpeg|png);base64,/i.test(raw)) {
+          return [raw];
+        }
+
+        return [];
+      };
+
+      const fromPhotosField = tryParsePhotoString(item.photos);
+      if (fromPhotosField.length > 0) {
+        return fromPhotosField;
+      }
+
+      return tryParsePhotoString(item.photo);
+    }
+
     // Render Cards
     function renderItems() {
       const grid = document.getElementById('items-grid');
+      grid.classList.remove('hidden');
+      document.getElementById('items-loading').classList.add('hidden');
+      document.getElementById('items-error').classList.add('hidden');
       const search = document.getElementById('search-bar').value.toLowerCase();
       const typeFilter = document.getElementById('filter-type').value;
       const catFilter = document.getElementById('filter-cat').value;
@@ -282,10 +1083,15 @@
       }
 
       document.getElementById('no-results').classList.add('hidden');
-      grid.innerHTML = filtered.map(item => `
-                <div class="item-card bg-white p-5 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-indigo-100/50">
+      grid.innerHTML = filtered.map(item => {
+            const photos = extractItemPhotos(item);
+            return `
+        <div class="item-card p-5 rounded-3xl">
+                    ${photos.length > 0
+                      ? `<div class="mb-3 -mx-5 -mt-5 relative"><img src="${photos[0]}" class="w-full h-48 object-cover rounded-t-3xl" />${photos.length > 1 ? `<span class="absolute right-3 top-3 bg-black/60 text-white text-[11px] font-semibold px-2 py-1 rounded-full">+${photos.length - 1} more</span>` : ''}</div>`
+                      : ''}
                     <div class="flex justify-between items-start mb-4">
-                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${item.type === 'lost' ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'}">
+                <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${item.type === 'lost' ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'}" style="letter-spacing:0.09em;">
                             ${item.type}
                         </span>
                         <div class="text-slate-400 text-xs">
@@ -297,40 +1103,275 @@
 
                     <div class="space-y-2 mb-4 pt-3 border-t border-slate-50">
                         <div class="flex items-center text-xs text-slate-500">
-                            <i class="fas fa-map-marker-alt w-5 text-indigo-400"></i> ${item.loc}
+                        <i class="fas fa-map-marker-alt w-5" style="color:var(--ios-indigo);"></i> ${item.loc}
                         </div>
                         <div class="flex items-center text-xs text-slate-500">
-                            <i class="fas fa-user-circle w-5 text-indigo-400"></i> Contact: ${item.contact}
+                        <i class="fas fa-user-circle w-5" style="color:var(--ios-indigo);"></i> Contact: ${item.contact}
                         </div>
                     </div>
-                    <a href="Login.html">
-                      <button onclick="addReport()" class="w-full py-2 text-xs font-bold text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">
-                          View Details
-                      </button>
-                    </a>
+                      <button onclick="requestOwnership(${item.id})" class="w-full py-2 text-xs font-bold text-white rounded-lg transition-colors" style="background:linear-gradient(135deg, var(--ios-blue), var(--ios-cyan)); box-shadow:0 10px 20px rgba(52, 147, 255, 0.25);">
+                        Claim
+                    </button>
                 </div>
-            `).join('');
+                  `;
+                }).join('');
+    }
+
+    // Creators Data
+    const creators = [
+      {
+        id: 1,
+        name: "Shaina Gunas",
+        position: "Full-stack Developer",
+        bio: "Basta buhay.",
+        age: 18,
+        contact: "shaina@foundu.com",
+        photo: "Image_resources/shaina-gunas.jpg",
+        initials: "SG",
+        color: "from-blue-400 to-cyan-400"
+      },
+      {
+        id: 2,
+        name: "Archie Melanio",
+        position: "UI/UX Designer",
+        bio: "Dubai chewy cookie, ano tara?",
+        age: 19,
+        contact: "archie@foundu.com",
+        photo: "Image_resources/archie-melanio.jpg",
+        initials: "AM",
+        color: "from-purple-400 to-pink-400"
+      },
+      {
+        id: 3,
+        name: "Maria Gadingan",
+        position: "UI/UX Designer",
+        bio: "Ang buhay ay hindi karera",
+        age: 16,
+        contact: "maria@foundu.com",
+        photo: "Image_resources/maria-gadingan.jpg",
+        initials: "MG",
+        color: "from-green-400 to-emerald-400"
+      },
+      {
+        id: 4,
+        name: "Blessy Devillena",
+        position: "Product Manager",
+        bio: "fueled by coffee and procrastination",
+        age: 18,
+        contact: "blessy@foundu.com",
+        photo: "Image_resources/blessy-devillena.jpg",
+        initials: "BD",
+        color: "from-orange-400 to-red-400"
+      },
+      {
+        id: 5,
+        name: "Michael Alegado",
+        position: "Data Analyst",
+        bio: "Numbers tell the story.",
+        age: 18,
+        contact: "michael@foundu.com",
+        initials: "MA",
+        color: "from-indigo-400 to-blue-400"
+      },
+      {
+        id: 6,
+        name: "Angelica Bautista",
+        position: "Backend Engineer",
+        bio: "Strong systems, smooth experiences.",
+        age: 19,
+        contact: "angelica@foundu.com",
+        initials: "AB",
+        color: "from-rose-400 to-pink-400"
+      }
+    ];
+
+    // Render Creators
+    function renderCreators() {
+      const grid = document.getElementById('creators-grid');
+      grid.innerHTML = creators.map(creator => `
+        <div class="creator-card">
+          ${creator.photo
+            ? `<div class="creator-avatar"><img src="${creator.photo}" alt="${creator.name} profile image" /></div>`
+            : `<div class="creator-avatar bg-gradient-to-br ${creator.color}">${creator.initials}</div>`}
+          <div class="creator-name">${creator.name}</div>
+          <div class="creator-position">${creator.position}</div>
+          <div class="creator-bio">"${creator.bio}"</div>
+          <div class="creator-meta">Age: ${creator.age}</div>
+          <div class="creator-contact">${creator.contact}</div>
+        </div>
+      `).join('');
+    }
+
+    async function pickProofImage() {
+      return new Promise((resolve) => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/jpeg,image/png';
+        input.onchange = async () => {
+          const file = input.files && input.files[0];
+          if (!file) {
+            resolve('');
+            return;
+          }
+
+          if (!file.type.match(/image\/(jpeg|png)/)) {
+            showAlert('Proof image must be JPEG or PNG.');
+            resolve('');
+            return;
+          }
+
+          if (file.size > 5 * 1024 * 1024) {
+            showAlert('Proof image must be less than 5MB.');
+            resolve('');
+            return;
+          }
+
+          try {
+            const compressed = await compressImage(file, 1100, 1100, 0.8);
+            resolve(compressed);
+          } catch (error) {
+            showAlert('Could not process proof image.');
+            resolve('');
+          }
+        };
+
+        input.click();
+      });
+    }
+
+    async function requestOwnership(itemId) {
+      const claimantNameInput = prompt('Enter your full name for owner verification:');
+      if (claimantNameInput === null) {
+        return;
+      }
+
+      const claimantName = claimantNameInput.trim();
+      if (!claimantName) {
+        showAlert('Name is required before requesting ownership.');
+        return;
+      }
+
+      const claimantStudentIdInput = prompt('Enter your student ID for owner verification (format: 00-0-0-0000):');
+      if (claimantStudentIdInput === null) {
+        return;
+      }
+
+      const claimantStudentId = claimantStudentIdInput.trim();
+      if (!claimantStudentId) {
+        showAlert('Student ID is required before requesting ownership.');
+        return;
+      }
+
+      if (!/^\d{2}-\d-\d-\d{4}$/.test(claimantStudentId)) {
+        showAlert('Invalid student ID format. Use 00-0-0-0000.');
+        return;
+      }
+
+      const claimMessageInput = prompt('Optional note for owner verification:', '');
+      if (claimMessageInput === null) {
+        return;
+      }
+
+      const proofImage = '';
+
+      const createClaimRequest = async () => apiFetch('/api/claims', {
+        method: 'POST',
+        body: JSON.stringify({
+          itemId,
+          claimantName,
+          claimantStudentId,
+          claimMessage: claimMessageInput.trim(),
+          proofImage
+        })
+      });
+
+      try {
+        let response = await createClaimRequest();
+
+        if (response.status === 403) {
+          await fetchCsrfToken();
+          response = await createClaimRequest();
+        }
+
+        if (response.status === 409) {
+          showAlert('Ownership request is already pending for this item.');
+          return;
+        }
+
+        if (!response.ok) {
+          const errorPayload = await response.json().catch(() => null);
+          const message = (errorPayload && errorPayload.error)
+            ? errorPayload.error
+            : `Could not create ownership request (${response.status}).`;
+          throw new Error(message);
+        }
+
+        showAlert(`Ownership request sent for item #${itemId}. Admin will verify your details.`);
+      } catch (error) {
+        console.error('[frontend] Failed to request ownership:', error);
+        showAlert(error.message || 'Failed to send ownership request.');
+      }
     }
 
     // Form Logic
-    function handleFormSubmit(e) {
+    async function loadItems() {
+      setItemsLoadingState(true);
+      try {
+        const response = await apiFetch('/api/items');
+
+        if (!response.ok) {
+          throw new Error(`Could not load items from server (${response.status}).`);
+        }
+
+        const payload = await response.json();
+        items = payload.data || [];
+        renderItems();
+      } catch (error) {
+        console.error('[frontend] Failed to load items:', error);
+        setItemsErrorState();
+        showAlert('Failed to load posts from DB. Start backend: node script.js');
+      }
+    }
+
+    // Form Logic
+    async function handleFormSubmit(e) {
       e.preventDefault();
+
       const newItem = {
-        id: Date.now(),
         type: currentFormType,
         title: document.getElementById('in-title').value,
         cat: document.getElementById('in-cat').value,
         loc: document.getElementById('in-loc').value,
         date: document.getElementById('in-date').value,
         desc: document.getElementById('in-desc').value,
-        contact: document.getElementById('in-contact').value
+        contact: document.getElementById("in-contact").value,
+        photo: photoBase64,
+        photos: photoBase64 ? [photoBase64] : []
       };
 
-      items.unshift(newItem);
-      document.getElementById('report-form').reset();
-      setFormType('lost');
-      showAlert('Your report has been posted!');
-      showView('home');
+      try {
+        const response = await apiFetch('/api/items', {
+          method: 'POST',
+          body: JSON.stringify(newItem)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Could not save report (${response.status}).`);
+        }
+
+        await response.json();
+
+        document.getElementById('report-form').reset();
+        setFormType('lost');
+        clearPhotoPreview();
+        document.getElementById('in-date').valueAsDate = new Date();
+        showAlert('Report submitted. Waiting for admin approval.');
+        showView('home');
+        await loadItems();
+      } catch (error) {
+        console.error('[frontend] Failed to submit report:', error);
+        showAlert('Failed to save report to database.');
+      }
     }
 
     // Utils
@@ -346,9 +1387,40 @@
     }
 
     // Start
-    window.onload = () => {
+    function playTitleTransition() {
+      const splash = document.getElementById('title-splash');
+      if (!splash) {
+        document.body.classList.remove('splash-active');
+        return Promise.resolve();
+      }
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          splash.classList.add('fade-out');
+        }, 4800);
+
+        setTimeout(() => {
+          document.body.classList.remove('splash-active');
+          splash.remove();
+          resolve();
+        }, 5700);
+      });
+    }
+
+    window.onload = async () => {
+      const introTransition = playTitleTransition();
       document.getElementById('in-date').valueAsDate = new Date();
-      renderItems();
+      try {
+        await resolveApiBase();
+        await fetchCsrfToken();
+        await loadItems();
+      } catch (error) {
+        console.error('[frontend] API discovery failed:', error);
+        await introTransition;
+        showAlert(`Startup failed: ${error.message}`);
+        return;
+      }
+      await introTransition;
     };
   </script>
 </body>

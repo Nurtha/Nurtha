@@ -1,15 +1,21 @@
 document.getElementById("loginForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
-  const schoolId = document.getElementById("schoolId").value;
+  const schoolId = document.getElementById("schoolId").value.trim();
   const password = document.getElementById("password").value;
+  const errorMsg = document.getElementById("errorMsg");
 
   // Temporary check (replace with Firebase later)
-  if (schoolId === "12345" && password === "password") {
+  if ((schoolId === "yearnerngtaon_2026" && password === "SABYAEMAMLAA") || (schoolId === "Nurtha" && password === "ankenosn")) {
+    errorMsg.classList.remove("active");
     alert("Login successful! Redirecting...");
-    window.location.href = "dashboard.html"; // placeholder redirect
+    window.location.href = "Admin.html"; // placeholder redirect
   } else {
-    document.getElementById("errorMsg").textContent = "Invalid School ID or Password.";
+    errorMsg.textContent = "Invalid School ID or Password.";
+    errorMsg.classList.add("active");
+    setTimeout(() => {
+      errorMsg.classList.remove("active");
+    }, 4000);
   }
 });
 

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoundU Admin Board</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="bg-orb orb-one" aria-hidden="true"></div>
+  <div class="bg-orb orb-two" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1>FoundU Admin Board</h1>
+      <p class="topbar-subtitle">Review, approve, and verify reports in one secure workspace.</p>
+    </div>
+
+    <div class="topbar-right">
+      <button class="tab-btn" onclick="window.location.href='index.html'" style="margin-right:16px;">
+        <i class="fas fa-home" style="margin-right:6px;"></i>Home
+      </button>
+      <p class="live-chip">System Online</p>
+    <nav class="tabs">
+      <button class="tab-btn active" data-section="items" onclick="showSection('items')">Items</button>
+      <button class="tab-btn" data-section="dashboard" onclick="showSection('dashboard')">Dashboard <span id="claim-badge" class="badge hidden">0</span></button>
+    </nav>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <!-- Items Section -->
+    <section id="items" class="active">
+      <article class="section-hero">
+        <h2>Reported Items</h2>
+        <p>Approve valid posts, remove invalid entries, and process founder ownership requests fast.</p>
+      </article>
+
+      <h3 class="section-title">Reported Items</h3>
+      <div class="table-shell">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Status</th>
+              <th>Item</th>
+              <th>Description</th>
+              <th>Location</th>
+              <th>Contact</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="itemTable">
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-title-row">
+        <h3 class="section-title">Ownership Requests</h3>
+        <button class="action-btn delete" onclick="clearOwnershipHistory()">Clear History</button>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead>
+            <tr>
+              <th>Claim ID</th>
+              <th>Item</th>
+              <th>Founder Name</th>
+              <th>Student ID</th>
+              <th>Claim Note</th>
+              <th>Proof</th>
+              <th>Location</th>
+              <th>Requested At</th>
+              <th>Status</th>
+              <th>Admin Note</th>
+              <th>Certificate Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="claimTable">
+            <!-- Claim rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard">
+      <article class="section-hero">
+        <h2>Admin Dashboard</h2>
+        <p>Track approval patterns, monitor claim trends, and spot high-volume categories at a glance.</p>
+      </article>
+
+      <div class="dashboard-grid">
+        <article class="card">
+          <p class="label">Approved Posts</p>
+          <p id="stat-approved-total" class="value">0</p>
+        </article>
+        <article class="card">
+          <p class="label">Categories (Approved)</p>
+          <p id="stat-approved-categories" class="value">0</p>
+        </article>
+        <article class="card">
+          <p class="label">Locations (Approved)</p>
+          <p id="stat-approved-locations" class="value">0</p>
+        </article>
+      </div>
+
+      <div class="charts-grid">
+        <article class="chart-card">
+          <h3>By Status</h3>
+          <div class="pie-wrap">
+            <div id="pie-status" class="pie"></div>
+          </div>
+          <div class="legend">
+            <p><span class="dot pending-fill"></span> Pending: <strong id="pie-status-pending-value">0</strong></p>
+            <p><span class="dot approved-fill"></span> Approved: <strong id="pie-status-approved-value">0</strong></p>
+          </div>
+        </article>
+
+        <article class="chart-card">
+          <h3>By Type</h3>
+          <div class="pie-wrap">
+            <div id="pie-type" class="pie"></div>
+          </div>
+          <div class="legend">
+            <p><span class="dot lost-fill"></span> Lost: <strong id="pie-type-lost-value">0</strong></p>
+            <p><span class="dot found-fill"></span> Found: <strong id="pie-type-found-value">0</strong></p>
+          </div>
+        </article>
+
+        <article class="chart-card">
+          <h3>By Category (Approved)</h3>
+          <div class="pie-wrap">
+            <div id="pie-category" class="pie"></div>
+          </div>
+          <div id="legend-category" class="legend"></div>
+        </article>
+
+        <article class="chart-card">
+          <h3>By Location (Approved)</h3>
+          <div class="pie-wrap">
+            <div id="pie-location" class="pie"></div>
+          </div>
+          <div id="legend-location" class="legend"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
