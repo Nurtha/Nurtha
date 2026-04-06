@@ -4,7 +4,34 @@ let API_BASE = '';
 let CSRF_TOKEN = '';
 let ADMIN_API_KEY = '';
 const API_BASE_STORAGE_KEY = 'founduApiBase';
+const ADMIN_KEY_STORAGE_KEY = 'founduAdminApiKey';
+const ADMIN_KEY_COOKIE_NAME = 'foundu_admin_api_key';
+const ADMIN_KEY_COOKIE_DAYS = 30;
 const PIE_COLORS = ['#1f77ff', '#e53935', '#2bb673', '#f0b429', '#7e57c2', '#00a8a8', '#ff7f50', '#546e7a'];
+
+function setCookie(name, value, days = 30) {
+  const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax${secure}`;
+}
+
+function getCookie(name) {
+  const encodedName = `${encodeURIComponent(name)}=`;
+  const cookies = document.cookie ? document.cookie.split('; ') : [];
+
+  for (const cookie of cookies) {
+    if (cookie.startsWith(encodedName)) {
+      return decodeURIComponent(cookie.slice(encodedName.length));
+    }
+  }
+
+  return '';
+}
+
+function deleteCookie(name) {
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${encodeURIComponent(name)}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax${secure}`;
+}
 
 function getApiCandidates() {
   const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
@@ -84,8 +111,20 @@ async function fetchCsrfToken() {
 }
 
 function loadAdminApiKey() {
-  const saved = localStorage.getItem('founduAdminApiKey') || '';
-  const provided = prompt(`Enter admin API key for ${API_BASE || 'this server'}:`, saved || '');
+  const fromCookie = getCookie(ADMIN_KEY_COOKIE_NAME).trim();
+  const fromStorage = (localStorage.getItem(ADMIN_KEY_STORAGE_KEY) || '').trim();
+  const saved = fromCookie || fromStorage;
+
+  if (saved) {
+    ADMIN_API_KEY = saved;
+    localStorage.setItem(ADMIN_KEY_STORAGE_KEY, saved);
+    if (!fromCookie) {
+      setCookie(ADMIN_KEY_COOKIE_NAME, saved, ADMIN_KEY_COOKIE_DAYS);
+    }
+    return;
+  }
+
+  const provided = prompt(`Enter admin API key for ${API_BASE || 'this server'}:`);
 
   if (provided === null) {
     throw new Error('Admin API key is required');
@@ -96,12 +135,14 @@ function loadAdminApiKey() {
     throw new Error('Admin API key is required');
   }
 
-  localStorage.setItem('founduAdminApiKey', ADMIN_API_KEY);
+  localStorage.setItem(ADMIN_KEY_STORAGE_KEY, ADMIN_API_KEY);
+  setCookie(ADMIN_KEY_COOKIE_NAME, ADMIN_API_KEY, ADMIN_KEY_COOKIE_DAYS);
 }
 
 function clearAdminApiKey() {
   ADMIN_API_KEY = '';
-  localStorage.removeItem('founduAdminApiKey');
+  localStorage.removeItem(ADMIN_KEY_STORAGE_KEY);
+  deleteCookie(ADMIN_KEY_COOKIE_NAME);
 }
 
 async function apiFetch(path, options = {}) {
