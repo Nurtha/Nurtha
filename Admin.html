@@ -43,6 +43,8 @@
             <tr>
               <th>ID</th>
               <th>Status</th>
+              <th>Type</th>
+              <th>Category</th>
               <th>Item</th>
               <th>Description</th>
               <th>Location</th>
@@ -66,6 +68,8 @@
           <thead>
             <tr>
               <th>Claim ID</th>
+              <th>Type</th>
+              <th>Category</th>
               <th>Item</th>
               <th>Founder Name</th>
               <th>Student ID</th>
@@ -84,6 +88,33 @@
           </tbody>
         </table>
       </div>
+
+      <div class="section-title-row">
+        <h3 class="section-title">Match Review</h3>
+      </div>
+      <div class="table-shell">
+        <table>
+          <thead>
+            <tr>
+              <th>Match ID</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Source Item</th>
+              <th>Target Item</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Date Gap</th>
+              <th>Keywords</th>
+              <th>Requested At</th>
+              <th>Reviewed At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="matchTable">
+            <!-- Match rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <!-- Dashboard Section -->
@@ -95,28 +126,28 @@
 
       <div class="dashboard-grid">
         <article class="card">
-          <p class="label">Approved Posts</p>
-          <p id="stat-approved-total" class="value">0</p>
+          <p class="label">Pending Reported Posts</p>
+          <p id="stat-pending-posts" class="value">0</p>
         </article>
         <article class="card">
-          <p class="label">Categories (Approved)</p>
-          <p id="stat-approved-categories" class="value">0</p>
+          <p class="label">Pending Ownership Claims</p>
+          <p id="stat-pending-claims" class="value">0</p>
         </article>
         <article class="card">
-          <p class="label">Locations (Approved)</p>
-          <p id="stat-approved-locations" class="value">0</p>
+          <p class="label">Verified Ownership Claims</p>
+          <p id="stat-verified-claims" class="value">0</p>
         </article>
       </div>
 
       <div class="charts-grid">
         <article class="chart-card">
-          <h3>By Status</h3>
+          <h3>Post Moderation Status</h3>
           <div class="pie-wrap">
             <div id="pie-status" class="pie"></div>
           </div>
           <div class="legend">
-            <p><span class="dot pending-fill"></span> Pending: <strong id="pie-status-pending-value">0</strong></p>
-            <p><span class="dot approved-fill"></span> Approved: <strong id="pie-status-approved-value">0</strong></p>
+            <p><span class="dot pending-fill"></span> Pending Posts: <strong id="pie-status-pending-value">0</strong></p>
+            <p><span class="dot approved-fill"></span> Approved Posts: <strong id="pie-status-approved-value">0</strong></p>
           </div>
         </article>
 
@@ -151,6 +182,6 @@
   </main>
 
   <script src="security-shortcuts.js"></script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=20260412b"></script>
 </body>
 </html>

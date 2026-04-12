@@ -4,6 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
+    "start": "node script.js",
+    "server": "node script.js",
     "test": "node --test tests/*.test.js"
   },
   "repository": {

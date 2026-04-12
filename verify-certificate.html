@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Certificate | FoundU</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; background: linear-gradient(180deg, #eef3ff, #f7fbff); color: #1b2540; }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 28px 18px 40px; }
+    .card { background: rgba(255,255,255,0.82); border: 1px solid rgba(255,255,255,0.86); border-radius: 24px; box-shadow: 0 24px 50px rgba(26, 52, 94, 0.14); padding: 24px; backdrop-filter: blur(12px); }
+    .hero { margin-bottom: 18px; }
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.03em; }
+    p { color: #5d6d8c; }
+    .field { display: grid; gap: 6px; margin-top: 14px; }
+    .field label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: #6a7894; font-weight: 800; }
+    .value { font-size: 18px; font-weight: 700; color: #18305b; }
+    .status { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #e7f8ee; color: #176a3a; font-weight: 800; margin-top: 12px; }
+    .error { background: #fff2f2; color: #b42318; }
+    .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+    a { color: #0a84ff; text-decoration: none; font-weight: 700; }
+    .muted { font-size: 14px; color: #66708a; }
+
+    @media (max-width: 768px) {
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav a {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 425px) {
+      .wrap {
+        padding: 16px 12px 28px;
+      }
+
+      .card {
+        padding: 16px;
+        border-radius: 18px;
+      }
+
+      .field {
+        gap: 4px;
+      }
+
+      .value {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 375px) {
+      h1 {
+        font-size: 26px;
+      }
+
+      .field label {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .status {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .value {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to FoundU</a>
+      <a href="good-samaritan-board.html">Good Samaritan Board</a>
+    </div>
+    <div class="card">
+      <div class="hero">
+        <h1>Certificate Verification</h1>
+        <p>Verify a FoundU certificate without exposing private claim details.</p>
+      </div>
+      <div id="output" class="muted">Loading certificate details...</div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE_STORAGE_KEY = 'founduApiBase';
+    let API_BASE = '';
+
+    function getApiBaseFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = (params.get('apiBase') || params.get('api') || params.get('api_url') || '').trim();
+      if (!raw) {
+        return '';
+      }
+
+      return raw.replace(/\/$/, '');
+    }
+
+    function getApiCandidates() {
+      const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+      const host = window.location.hostname;
+      const savedBase = (localStorage.getItem(API_BASE_STORAGE_KEY) || '').trim();
+      const urlBase = getApiBaseFromUrl();
+      const sameOriginBase = window.location.origin || '';
+      const isLocalPage = host === 'localhost' || host === '127.0.0.1';
+      const candidates = isLocalPage
+        ? [urlBase, savedBase, sameOriginBase, `${protocol}//${host}:3000`, 'http://127.0.0.1:3000', 'http://localhost:3000', '']
+        : [urlBase, savedBase, sameOriginBase, ''];
+
+      if (host) {
+        candidates.push(`${protocol}//${host}:3000`);
+      }
+
+      const unique = [];
+      const seen = new Set();
+      for (const candidate of candidates) {
+        if (candidate === null || candidate === undefined) continue;
+        const normalized = candidate.toString().trim().replace(/\/$/, '');
+        const key = normalized;
+        if (!key) continue;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        unique.push(normalized);
+      }
+      return unique;
+    }
+
+    async function tryApiBase(base) {
+      const response = await fetch(`${base}/api/health`, { credentials: 'include' });
+      if (!response.ok) {
+        throw new Error(`API health check failed (${response.status})`);
+      }
+      API_BASE = base;
+      localStorage.setItem(API_BASE_STORAGE_KEY, base);
+    }
+
+    async function resolveApiBase() {
+      const candidates = getApiCandidates();
+      const errors = [];
+      for (const base of candidates) {
+        try {
+          await tryApiBase(base);
+          return;
+        } catch (error) {
+          errors.push(`${base}: ${error.message}`);
+        }
+      }
+      console.error('[verify-certificate] API auto-detection failed. Tried:', errors);
+      throw new Error('Cannot connect to API server. Start backend on http://127.0.0.1:3000 (run: npm run start).');
+    }
+
+    function escapeHtml(value) {
+      return (value || '').toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function getQueryParam(name) {
+      return new URLSearchParams(window.location.search).get(name) || '';
+    }
+
+    function formatDateTime(value) {
+      if (!value) return '-';
+      const parsed = new Date(value);
+      return Number.isNaN(parsed.getTime()) ? value : parsed.toLocaleString();
+    }
+
+    async function loadCertificate() {
+      const output = document.getElementById('output');
+      const certificateId = getQueryParam('id').trim();
+
+      if (!certificateId) {
+        output.innerHTML = '<div class="status error"><i class="fa-solid fa-triangle-exclamation"></i> Missing certificate id.</div>';
+        return;
+      }
+
+      try {
+        await resolveApiBase();
+        const response = await fetch(`${API_BASE}/api/certificates/verify?id=${encodeURIComponent(certificateId)}`, { credentials: 'include' });
+        const payload = await response.json();
+
+        if (!response.ok) {
+          throw new Error(payload.error || `Verification failed (${response.status})`);
+        }
+
+        const data = payload.data || {};
+        output.innerHTML = `
+          <div class="status"><i class="fa-solid fa-circle-check"></i> Certificate verified</div>
+          <div class="field"><label>Certificate ID</label><div class="value">${escapeHtml(data.certificate_id)}</div></div>
+          <div class="field"><label>Finder Name</label><div class="value">${escapeHtml(data.finder_name)}</div></div>
+          <div class="field"><label>Item Name</label><div class="value">${escapeHtml(data.item_name)}</div></div>
+          <div class="field"><label>Category</label><div class="value">${escapeHtml(data.category)}</div></div>
+          <div class="field"><label>Location Found</label><div class="value">${escapeHtml(data.location_found)}</div></div>
+          <div class="field"><label>Date Returned</label><div class="value">${escapeHtml(formatDateTime(data.date_returned))}</div></div>
+        `;
+      } catch (error) {
+        output.innerHTML = `<div class="status error"><i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(error.message || 'Unable to verify certificate.')}</div>`;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadCertificate);
+  </script>
+</body>
+</html>

@@ -4,14 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FoundU</title>
-
-  <!-- Tailwind CSS for styling -->
+  <title>FoundU | Lost and Found Platform</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- FontAwesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
@@ -50,6 +46,12 @@
       transition: opacity 0.45s ease;
     }
 
+    #alert-box.alert-emphasis {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      box-shadow: 0 22px 38px rgba(15, 23, 42, 0.38);
+    }
+
     .title-splash {
       position: fixed;
       inset: 0;
@@ -62,7 +64,7 @@
         radial-gradient(circle at 12% 8%, rgba(131, 180, 255, 0.48) 0%, transparent 36%),
         radial-gradient(circle at 88% 86%, rgba(97, 226, 255, 0.35) 0%, transparent 38%),
         linear-gradient(145deg, #f7fbff, #e8f1ff 58%, #f7fdff);
-      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .title-splash.fade-out {
@@ -242,6 +244,7 @@
       border-radius: 999px;
       font-size: 13px;
       font-weight: 700;
+      min-height: 42px;
       transition: 0.22s ease;
     }
 
@@ -291,6 +294,104 @@
 
     .ios-panel {
       border-radius: 30px;
+    }
+
+    .ownership-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 130;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(12, 20, 38, 0.44);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+
+    .ownership-modal.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .ownership-dialog {
+      width: min(94vw, 460px);
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: 0 26px 55px rgba(20, 46, 90, 0.26);
+      backdrop-filter: blur(12px);
+      padding: 20px;
+      transform: translateY(14px) scale(0.98);
+      transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .ownership-modal.is-open .ownership-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    .ownership-note {
+      color: #5e6d8d;
+      font-size: 13px;
+      margin: 0 0 14px;
+    }
+
+    .ownership-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 4px;
+    }
+
+    .ownership-id-wrap {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transform: translateY(-6px);
+      transition: opacity 0.24s ease, max-height 0.24s ease, transform 0.24s ease;
+    }
+
+    .ownership-id-wrap.is-visible {
+      opacity: 1;
+      max-height: 120px;
+      transform: translateY(0);
+    }
+
+    .ownership-btn {
+      border-radius: 12px;
+      padding: 9px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    }
+
+    .ownership-btn:active {
+      transform: translateY(1px);
+    }
+
+    .ownership-btn-cancel {
+      color: #51607f;
+      border: 1px solid rgba(203, 214, 236, 0.95);
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .ownership-btn-cancel:hover {
+      background: rgba(245, 248, 255, 0.98);
+    }
+
+    .ownership-btn-submit {
+      color: #fff;
+      background: linear-gradient(135deg, var(--ios-indigo), var(--ios-blue));
+      box-shadow: 0 12px 22px rgba(52, 97, 224, 0.28);
+    }
+
+    .ownership-btn-submit:hover {
+      box-shadow: 0 15px 24px rgba(52, 97, 224, 0.34);
     }
 
     .item-card {
@@ -525,6 +626,128 @@
       border: 1px solid rgba(203, 213, 225, 0.8);
     }
 
+    .public-nav-panel {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 1024px) {
+      .item-card {
+        border-radius: 1.35rem;
+      }
+
+      .creator-card {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .public-nav-wrap {
+        height: auto !important;
+        align-items: stretch !important;
+        gap: 0.65rem;
+        padding: 0.55rem 0;
+      }
+
+      .public-nav-brand {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .public-nav-panel {
+        width: 100%;
+      }
+
+      .public-nav-panel.ios-glass {
+        width: 100%;
+        border-radius: 1rem;
+        padding: 0.45rem;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .public-nav-panel .nav-btn {
+        width: 100%;
+        min-height: 44px;
+        font-size: 12px;
+        padding: 0.55rem 0.6rem;
+      }
+
+      .creator-avatar {
+        width: 82px;
+        height: 82px;
+        font-size: 2rem;
+      }
+
+      .ownership-actions {
+        flex-direction: column-reverse;
+      }
+
+      .ownership-actions .ownership-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 425px) {
+      .hero-title {
+        font-size: 1.75rem;
+      }
+
+      .hero-sub {
+        font-size: 0.9rem;
+      }
+
+      .item-card {
+        border-radius: 1.2rem;
+      }
+
+      .creator-card {
+        border-radius: 1.35rem;
+        padding: 1.2rem;
+      }
+
+      .creator-name {
+        font-size: 1rem;
+      }
+
+      #alert-box {
+        width: calc(100vw - 24px);
+        max-width: 480px;
+        border-radius: 14px;
+      }
+    }
+
+    @media (max-width: 375px) {
+      .public-nav-panel.ios-glass {
+        grid-template-columns: 1fr;
+      }
+
+      .public-nav-panel .nav-btn {
+        min-height: 42px;
+      }
+
+      #view-home,
+      #view-report,
+      #view-creators {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .hero-title {
+        font-size: 1.52rem;
+      }
+
+      .creator-position {
+        font-size: 0.72rem;
+      }
+
+      .creator-contact {
+        font-size: 0.68rem;
+      }
+    }
+
 
     @keyframes skeletonPulse {
       0% {
@@ -542,9 +765,20 @@
       .title-mark,
       .title-shell,
       .title-text,
-      .spark {
+      .spark,
+      .ownership-dialog {
         animation: none !important;
       }
+
+      .ownership-modal,
+      .ownership-dialog {
+        transition: none !important;
+      }
+    }
+
+    /* Fallback utility so JS class toggles work even if utility CSS fails to load. */
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
@@ -576,8 +810,8 @@
   <!-- Navigation -->
   <nav class="ios-nav sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex justify-between h-16 items-center">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="showView('home')">
+      <div class="public-nav-wrap flex justify-between h-16 items-center">
+        <div class="public-nav-brand flex items-center gap-2 cursor-pointer" onclick="showView('home')">
           <div class="brand-chip p-2 rounded-xl text-white">
             <i class="fas fa-hand-holding-heart"></i>
           </div>
@@ -586,7 +820,7 @@
           </a>
         </div>
 
-        <div class="ios-glass flex items-center gap-2 p-1 rounded-full sm:gap-3">
+        <div class="public-nav-panel ios-glass flex items-center gap-2 p-1 rounded-full sm:gap-3">
           <button onclick="showView('home')" id="btn-home"
             class="nav-btn nav-btn-active">
             Browse
@@ -598,6 +832,10 @@
           <button onclick="showView('creators')" id="btn-creators"
             class="nav-btn nav-btn-inactive">
             Creators
+          </button>
+          <button onclick="window.location.href='good-samaritan-board.html'" id="btn-good-samaritan"
+            class="nav-btn nav-btn-inactive">
+            Good Samaritan Board
           </button>
         </div>
       </div>
@@ -638,6 +876,15 @@
           <option value="other">Other</option>
         </select>
       </div>
+
+      <section id="match-suggestions" class="hidden ios-glass rounded-3xl p-5 border border-slate-100">
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <h3 id="match-suggestions-title" class="text-lg font-bold text-slate-800">Possible Matches</h3>
+          <span id="match-suggestions-count" class="text-xs font-semibold text-slate-500"></span>
+        </div>
+        <div id="match-suggestions-empty" class="hidden text-sm text-slate-500">No high-confidence matches detected yet.</div>
+        <div id="match-suggestions-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </section>
 
       <!-- Grid -->
       <div id="items-loading" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" aria-live="polite">
@@ -778,6 +1025,44 @@
     <span id="alert-msg">Post updated successfully!</span>
   </div>
 
+  <div id="ownership-modal" class="ownership-modal" role="dialog" aria-modal="true" aria-labelledby="ownership-modal-title">
+    <div class="ownership-dialog">
+      <h3 id="ownership-modal-title" class="text-lg font-bold text-slate-800 mb-1">Ownership Request</h3>
+      <p class="ownership-note">Complete the details below.</p>
+
+      <form id="ownership-form" class="space-y-3">
+        <div>
+          <label id="ownership-name-label" for="ownership-name" class="block text-sm font-semibold text-slate-700 mb-1">Enter your full name:</label>
+          <input id="ownership-name" type="text" class="ios-input w-full p-3 outline-none" maxlength="120" required>
+        </div>
+
+        <div>
+          <label for="ownership-role" class="block text-sm font-semibold text-slate-700 mb-1">Select Role</label>
+          <select id="ownership-role" class="ios-select w-full p-3 outline-none" required>
+            <option value="">Choose role</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+          </select>
+        </div>
+
+        <div id="ownership-id-wrap" class="ownership-id-wrap">
+          <label id="ownership-student-label" for="ownership-student-id" class="block text-sm font-semibold text-slate-700 mb-1">Enter your Student ID</label>
+          <input id="ownership-student-id" type="text" class="ios-input w-full p-3 outline-none" maxlength="24">
+        </div>
+
+        <div>
+          <label id="ownership-note-label" for="ownership-note" class="block text-sm font-semibold text-slate-700 mb-1">Optional note:</label>
+          <textarea id="ownership-note" rows="3" class="ios-input w-full p-3 outline-none resize-none" maxlength="400"></textarea>
+        </div>
+
+        <div class="ownership-actions">
+          <button id="ownership-cancel-btn" type="button" class="ownership-btn ownership-btn-cancel">Cancel</button>
+          <button type="submit" class="ownership-btn ownership-btn-submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="security-shortcuts.js"></script>
   <script>
     let items = [];
@@ -785,25 +1070,55 @@
     let CSRF_TOKEN = '';
     const API_BASE_STORAGE_KEY = 'founduApiBase';
 
+    function getApiBaseFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = (params.get('apiBase') || params.get('api') || params.get('api_url') || '').trim();
+      if (!raw) {
+        return '';
+      }
+
+      return raw.replace(/\/$/, '');
+    }
+
     function getApiCandidates() {
       const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
       const host = window.location.hostname;
       const savedBase = (localStorage.getItem(API_BASE_STORAGE_KEY) || '').trim();
+      const urlBase = getApiBaseFromUrl();
+      const isNgrokHost = /ngrok(-free)?\.app$|ngrok\.io$/i.test(host);
 
+      const sameOriginBase = window.location.origin || '';
       const isLocalPage = host === 'localhost' || host === '127.0.0.1';
       const candidates = isLocalPage
-        ? [`${protocol}//${host}:3000`, `${protocol}//${host}`, 'http://localhost:3000', 'http://127.0.0.1:3000', savedBase, '']
-        : [savedBase, ''];
+        ? [urlBase, savedBase, sameOriginBase, `${protocol}//${host}:3000`, 'http://127.0.0.1:3000', 'http://localhost:3000', '']
+        : [urlBase, savedBase, sameOriginBase, ''];
 
       if (host) {
-        candidates.push(`${protocol}//${host}`);
         candidates.push(`${protocol}//${host}:3000`);
       }
 
-      candidates.push('http://localhost:3000');
-      candidates.push('http://127.0.0.1:3000');
+      if (!isLocalPage && !isNgrokHost) {
+        candidates.push('http://127.0.0.1:3000', 'http://localhost:3000');
+      }
 
-      return [...new Set(candidates.filter(Boolean))];
+      const unique = [];
+      const seen = new Set();
+      for (const candidate of candidates) {
+        if (candidate === null || candidate === undefined) {
+          continue;
+        }
+
+        const normalized = candidate.toString().trim().replace(/\/$/, '');
+        const key = normalized || '__same_origin__';
+        if (seen.has(key)) {
+          continue;
+        }
+
+        seen.add(key);
+        unique.push(normalized);
+      }
+
+      return unique;
     }
 
     async function tryApiBase(base) {
@@ -822,32 +1137,32 @@
 
     async function resolveApiBase() {
       const candidates = getApiCandidates();
+      const errors = [];
 
       for (const base of candidates) {
         try {
           await tryApiBase(base);
           return;
         } catch (error) {
-          // Try next candidate.
+          errors.push(`${base}: ${error.message}`);
         }
       }
 
-      const savedBase = (localStorage.getItem(API_BASE_STORAGE_KEY) || '').trim();
-      const customBaseInput = prompt(
-        'Cannot auto-detect API server. Enter API URL (e.g. https://xxxx.ngrok-free.app or http://localhost:3000):',
-        savedBase || 'http://localhost:3000'
-      );
+      console.error('[frontend] API auto-detection failed. Tried:', errors);
+      throw new Error('Cannot connect to API server. If using ngrok, expose backend (port 3000) and open frontend with ?apiBase=https://<your-backend-ngrok-url>. Otherwise run: npm run start.');
+    }
 
-      if (customBaseInput === null) {
-        throw new Error('API server URL is required');
+    async function parseApiError(response, fallbackMessage) {
+      let message = fallbackMessage;
+      try {
+        const payload = await response.json();
+        if (payload && payload.error) {
+          message = payload.error;
+        }
+      } catch (error) {
+        // Ignore JSON parse errors and keep fallback.
       }
-
-      const customBase = customBaseInput.trim().replace(/\/$/, '');
-      if (!customBase) {
-        throw new Error('API server URL is required');
-      }
-
-      await tryApiBase(customBase);
+      return message;
     }
 
     async function fetchCsrfToken() {
@@ -877,17 +1192,134 @@
         }
       }
 
-      return fetch(`${API_BASE}${path}`, {
-        ...options,
-        method,
-        headers,
-        credentials: 'include'
-      });
+      const url = `${API_BASE}${path}`;
+      try {
+        return await fetch(url, {
+          ...options,
+          method,
+          headers,
+          credentials: 'include'
+        });
+      } catch (error) {
+        console.error(`[frontend] Network error for ${method} ${url}:`, error);
+        throw error;
+      }
     }
 
     let currentFormType = 'lost';
+    let latestMatchSuggestions = [];
+    let latestMatchSourceType = 'lost';
+    let alertTimerId = null;
 
     let photoBase64 = '';
+
+    function escapeHtml(value) {
+      return (value || '')
+        .toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function escapeRegExp(value) {
+      return (value || '').toString().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function highlightKeywords(text, keywords = []) {
+      const source = (text || '').toString();
+      if (!source || !Array.isArray(keywords) || keywords.length === 0) {
+        return escapeHtml(source);
+      }
+
+      let highlighted = escapeHtml(source);
+      const uniqueKeywords = [...new Set(keywords.map((entry) => (entry || '').toString().trim()).filter(Boolean))]
+        .sort((a, b) => b.length - a.length)
+        .slice(0, 8);
+
+      uniqueKeywords.forEach((keyword) => {
+        const pattern = new RegExp(`(${escapeRegExp(escapeHtml(keyword))})`, 'gi');
+        highlighted = highlighted.replace(pattern, '<mark class="bg-amber-100 text-amber-900 px-1 rounded">$1</mark>');
+      });
+
+      return highlighted;
+    }
+
+    function hideMatchSuggestions() {
+      latestMatchSuggestions = [];
+      const section = document.getElementById('match-suggestions');
+      section.classList.add('hidden');
+      document.getElementById('match-suggestions-grid').innerHTML = '';
+      document.getElementById('match-suggestions-empty').classList.add('hidden');
+      document.getElementById('match-suggestions-count').textContent = '';
+    }
+
+    function renderMatchSuggestions(matches, sourceType) {
+      const section = document.getElementById('match-suggestions');
+      const title = document.getElementById('match-suggestions-title');
+      const count = document.getElementById('match-suggestions-count');
+      const empty = document.getElementById('match-suggestions-empty');
+      const grid = document.getElementById('match-suggestions-grid');
+
+      latestMatchSuggestions = Array.isArray(matches) ? matches : [];
+      latestMatchSourceType = sourceType === 'found' ? 'found' : 'lost';
+
+      title.textContent = latestMatchSourceType === 'lost' ? 'Possible Matches' : 'Possible Owners';
+      count.textContent = latestMatchSuggestions.length > 0
+        ? `${latestMatchSuggestions.length} high-confidence result(s)`
+        : '0 results';
+
+      section.classList.remove('hidden');
+
+      if (latestMatchSuggestions.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      const actionLabel = latestMatchSourceType === 'lost' ? 'Request Match' : 'Confirm Match';
+
+      grid.innerHTML = latestMatchSuggestions.map((match) => {
+        const keywords = Array.isArray(match.matchedKeywords) ? match.matchedKeywords : [];
+        const score = Number(match.score || 0).toFixed(1);
+        return `
+          <article class="rounded-2xl bg-white/85 border border-slate-100 p-4 shadow-sm">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <div>
+                <p class="text-xs uppercase tracking-wide text-slate-500">${escapeHtml(match.type || '')} • ${escapeHtml(match.cat || '')}</p>
+                <h4 class="text-base font-bold text-slate-800">${highlightKeywords(match.title, keywords)}</h4>
+              </div>
+              <span class="text-xs font-bold px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">${score}%</span>
+            </div>
+            <p class="text-sm text-slate-600 mb-2">${highlightKeywords(match.desc, keywords)}</p>
+            <p class="text-xs text-slate-500 mb-3"><i class="fas fa-location-dot mr-1"></i>${escapeHtml(match.loc || '')} • ${escapeHtml(match.date || '')}</p>
+            <button onclick="requestMatchAction(${Number(match.id)})" class="w-full py-2 text-xs font-bold text-white rounded-lg" style="background:linear-gradient(135deg, var(--ios-indigo), var(--ios-blue));">
+              ${actionLabel}
+            </button>
+          </article>
+        `;
+      }).join('');
+    }
+
+    async function requestMatchAction(itemId) {
+      if (!Number.isInteger(itemId) || itemId <= 0) {
+        showAlert('Invalid matched item selected.');
+        return;
+      }
+
+      try {
+        const selected = latestMatchSuggestions.find((entry) => Number(entry.id) === itemId);
+        if (selected && selected.matchId) {
+          await apiFetch(`/api/matches/${selected.matchId}/request`, { method: 'POST' });
+        }
+      } catch (error) {
+        // Continue to ownership request flow even if request flagging fails.
+      }
+
+      await requestOwnership(itemId);
+    }
 
     function renderPhotoPreviews() {
       const preview = document.getElementById('photo-preview');
@@ -1060,6 +1492,44 @@
       return tryParsePhotoString(item.photo);
     }
 
+    function hasDetectedMatch(item) {
+      return Boolean(item && (item.hasMatch === true || Number(item.hasMatch) === 1));
+    }
+
+    function getMatchUiContent(item) {
+      const isLost = item.type === 'lost';
+      return {
+        label: isLost ? 'Possible Match Found' : 'Possible Owner Found',
+        button: isLost ? 'View Found Item' : 'View Lost Post'
+      };
+    }
+
+    function viewRelatedMatch(sourceItemId, relatedItemId, sourceType) {
+      const targetId = Number(relatedItemId);
+      if (!Number.isInteger(targetId) || targetId <= 0) {
+        showAlert('Matched post details are not available yet.');
+        return;
+      }
+
+      const targetType = sourceType === 'lost' ? 'found' : 'lost';
+      document.getElementById('filter-type').value = targetType;
+      renderItems();
+
+      setTimeout(() => {
+        const targetCard = document.getElementById(`item-card-${targetId}`);
+        if (!targetCard) {
+          showAlert('Matched post exists but is not currently visible in the list.');
+          return;
+        }
+
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetCard.classList.add('ring-2', 'ring-indigo-300');
+        setTimeout(() => {
+          targetCard.classList.remove('ring-2', 'ring-indigo-300');
+        }, 1800);
+      }, 0);
+    }
+
     // Render Cards
     function renderItems() {
       const grid = document.getElementById('items-grid');
@@ -1085,9 +1555,17 @@
 
       document.getElementById('no-results').classList.add('hidden');
       grid.innerHTML = filtered.map(item => {
-            const photos = extractItemPhotos(item);
+        const photos = extractItemPhotos(item);
+        const actionLabel = item.type === 'found' ? 'Claim' : 'Found';
+        const hasMatch = hasDetectedMatch(item);
+        const matchUi = getMatchUiContent(item);
+        const relatedMatchItemId = Number(item.relatedMatchItemId || item.related_match_item_id || 0);
+        const relatedMatchStatus = (item.relatedMatchStatus || item.related_match_status || '').toString().toLowerCase();
+        const matchHint = relatedMatchStatus === 'pending'
+          ? 'Pending admin review'
+          : 'This item may match another post';
             return `
-        <div class="item-card p-5 rounded-3xl">
+        <div id="item-card-${item.id}" class="item-card p-5 rounded-3xl">
                     ${photos.length > 0
                       ? `<div class="mb-3 -mx-5 -mt-5 relative"><img src="${photos[0]}" class="w-full h-48 object-cover rounded-t-3xl" />${photos.length > 1 ? `<span class="absolute right-3 top-3 bg-black/60 text-white text-[11px] font-semibold px-2 py-1 rounded-full">+${photos.length - 1} more</span>` : ''}</div>`
                       : ''}
@@ -1102,6 +1580,16 @@
                     <h3 class="text-lg font-bold text-slate-800 mb-2">${item.title}</h3>
                     <p class="text-slate-500 text-sm mb-4 line-clamp-2">${item.desc}</p>
 
+                    ${hasMatch
+                      ? `<div class="mb-4 rounded-xl border border-indigo-100 bg-indigo-50/70 p-3">
+                          <div class="flex items-center justify-between gap-2 mb-1">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-700">${matchUi.label}</span>
+                            <i class="fa-solid fa-link text-indigo-500 text-xs"></i>
+                          </div>
+                          <p class="text-xs text-indigo-700">${matchHint}</p>
+                        </div>`
+                      : ''}
+
                     <div class="space-y-2 mb-4 pt-3 border-t border-slate-50">
                         <div class="flex items-center text-xs text-slate-500">
                         <i class="fas fa-map-marker-alt w-5" style="color:var(--ios-indigo);"></i> ${item.loc}
@@ -1111,8 +1599,13 @@
                         </div>
                     </div>
                       <button onclick="requestOwnership(${item.id})" class="w-full py-2 text-xs font-bold text-white rounded-lg transition-colors" style="background:linear-gradient(135deg, var(--ios-blue), var(--ios-cyan)); box-shadow:0 10px 20px rgba(52, 147, 255, 0.25);">
-                        Claim
+                        ${actionLabel}
                     </button>
+                    ${hasMatch
+                      ? `<button onclick="viewRelatedMatch(${Number(item.id)}, ${relatedMatchItemId}, '${item.type}')" class="w-full mt-2 py-2 text-xs font-bold rounded-lg border border-indigo-200 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 transition-colors">
+                          ${matchUi.button}
+                        </button>`
+                      : ''}
                 </div>
                   `;
                 }).join('');
@@ -1147,7 +1640,7 @@
         name: "Maria Gadingan",
         position: "UI/UX Designer",
         bio: "Ang buhay ay hindi karera",
-        age: 16,
+        age: 18,
         contact: "maria@foundu.com",
         photo: "Image_resources/maria-gadingan.jpg",
         initials: "MG",
@@ -1200,7 +1693,6 @@
           <div class="creator-position">${creator.position}</div>
           <div class="creator-bio">"${creator.bio}"</div>
           <div class="creator-meta">Age: ${creator.age}</div>
-          <div class="creator-contact">${creator.contact}</div>
         </div>
       `).join('');
     }
@@ -1242,36 +1734,152 @@
       });
     }
 
+    function requestOwnershipDetails(questions) {
+      const modal = document.getElementById('ownership-modal');
+      const form = document.getElementById('ownership-form');
+      const cancelBtn = document.getElementById('ownership-cancel-btn');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const nameLabel = document.getElementById('ownership-name-label');
+      const studentLabel = document.getElementById('ownership-student-label');
+      const noteLabel = document.getElementById('ownership-note-label');
+      const nameInput = document.getElementById('ownership-name');
+      const roleInput = document.getElementById('ownership-role');
+      const idWrap = document.getElementById('ownership-id-wrap');
+      const studentInput = document.getElementById('ownership-student-id');
+      const noteInput = document.getElementById('ownership-note');
+
+      nameLabel.textContent = questions.name;
+      noteLabel.textContent = questions.note;
+
+      const applyRoleState = () => {
+        const role = roleInput.value;
+        const hasRole = role === 'student' || role === 'faculty';
+
+        idWrap.classList.toggle('is-visible', hasRole);
+        studentInput.required = hasRole;
+
+        if (role === 'faculty') {
+          studentLabel.textContent = 'Enter your Faculty ID';
+          studentInput.placeholder = 'FAC-0000';
+        } else {
+          studentLabel.textContent = 'Enter your Student ID';
+          studentInput.placeholder = '00-0-0-0000';
+        }
+
+        const hasId = studentInput.value.trim().length > 0;
+        submitBtn.disabled = !(hasRole && hasId);
+      };
+
+      nameInput.value = '';
+      roleInput.value = '';
+      studentInput.value = '';
+      noteInput.value = '';
+      applyRoleState();
+
+      modal.classList.add('is-open');
+
+      return new Promise((resolve) => {
+        const onCancel = () => close(null);
+        const onRoleChange = () => {
+          studentInput.value = '';
+          applyRoleState();
+        };
+        const onIdInput = () => applyRoleState();
+        const onOverlayClick = (event) => {
+          if (event.target === modal) {
+            close(null);
+          }
+        };
+        const onEscape = (event) => {
+          if (event.key === 'Escape') {
+            close(null);
+          }
+        };
+        const onSubmit = (event) => {
+          event.preventDefault();
+          close({
+            claimantName: nameInput.value.trim(),
+            claimantRole: roleInput.value,
+            claimantStudentId: studentInput.value.trim(),
+            claimMessage: noteInput.value.trim()
+          });
+        };
+
+        let isClosing = false;
+
+        function close(result) {
+          if (isClosing) {
+            return;
+          }
+          isClosing = true;
+          form.removeEventListener('submit', onSubmit);
+          cancelBtn.removeEventListener('click', onCancel);
+          roleInput.removeEventListener('change', onRoleChange);
+          studentInput.removeEventListener('input', onIdInput);
+          modal.removeEventListener('click', onOverlayClick);
+          document.removeEventListener('keydown', onEscape);
+          modal.classList.remove('is-open');
+          setTimeout(() => {
+            resolve(result);
+          }, 220);
+        }
+
+        form.addEventListener('submit', onSubmit);
+        cancelBtn.addEventListener('click', onCancel);
+  roleInput.addEventListener('change', onRoleChange);
+  studentInput.addEventListener('input', onIdInput);
+        modal.addEventListener('click', onOverlayClick);
+        document.addEventListener('keydown', onEscape);
+
+        setTimeout(() => {
+          nameInput.focus();
+        }, 0);
+      });
+    }
+
     async function requestOwnership(itemId) {
-      const claimantNameInput = prompt('Enter your full name for owner verification:');
-      if (claimantNameInput === null) {
+      const selectedItem = items.find((item) => item.id === itemId);
+      const isFoundPost = selectedItem && selectedItem.type === 'found';
+
+      const ownershipQuestions = isFoundPost
+        ? {
+            name: 'Enter your full name to claim this item:',
+            studentId: 'Enter your student ID for owner verification (format: 00-0-0-0000):',
+            note: 'Optional note (describe proof that this item is yours):'
+          }
+        : {
+            name: 'Enter your full name for return coordination:',
+            studentId: 'Enter your student ID for report verification (format: 00-0-0-0000):',
+            note: 'Optional note (add details to help identify your item):'
+          };
+
+      const ownershipDetails = await requestOwnershipDetails(ownershipQuestions);
+      if (!ownershipDetails) {
         return;
       }
 
-      const claimantName = claimantNameInput.trim();
+      const claimantName = ownershipDetails.claimantName;
       if (!claimantName) {
         showAlert('Name is required before requesting ownership.');
         return;
       }
 
-      const claimantStudentIdInput = prompt('Enter your student ID for owner verification (format: 00-0-0-0000):');
-      if (claimantStudentIdInput === null) {
-        return;
-      }
+      const claimantRole = ownershipDetails.claimantRole === 'faculty' ? 'faculty' : 'student';
 
-      const claimantStudentId = claimantStudentIdInput.trim();
+      const claimantStudentId = ownershipDetails.claimantStudentId;
       if (!claimantStudentId) {
-        showAlert('Student ID is required before requesting ownership.');
+        showAlert('ID is required before requesting ownership.');
         return;
       }
 
-      if (!/^\d{2}-\d-\d-\d{4}$/.test(claimantStudentId)) {
-        showAlert('Invalid student ID format. Use 00-0-0-0000.');
-        return;
-      }
+      const claimantIdPattern = claimantRole === 'faculty'
+        ? /^FAC-\d{4}$/i
+        : /^\d{2}-\d-\d-\d{4}$/;
 
-      const claimMessageInput = prompt('Optional note for owner verification:', '');
-      if (claimMessageInput === null) {
+      if (!claimantIdPattern.test(claimantStudentId)) {
+        showAlert(claimantRole === 'faculty'
+          ? 'Invalid faculty ID format. Use FAC-0000.'
+          : 'Invalid student ID format. Use 00-0-0-0000.');
         return;
       }
 
@@ -1282,8 +1890,9 @@
         body: JSON.stringify({
           itemId,
           claimantName,
+          claimantRole,
           claimantStudentId,
-          claimMessage: claimMessageInput.trim(),
+          claimMessage: ownershipDetails.claimMessage,
           proofImage
         })
       });
@@ -1317,22 +1926,45 @@
     }
 
     // Form Logic
+    async function fetchItemsOnce() {
+      const response = await apiFetch('/api/items');
+
+      if (!response.ok) {
+        let details = '';
+        try {
+          const payload = await response.json();
+          if (payload && payload.error) {
+            details = `: ${payload.error}`;
+          }
+        } catch (error) {
+          // Ignore payload parsing errors and use status text fallback.
+        }
+
+        throw new Error(`Could not load items from server (${response.status})${details}`);
+      }
+
+      const payload = await response.json();
+      return payload.data || [];
+    }
+
     async function loadItems() {
       setItemsLoadingState(true);
       try {
-        const response = await apiFetch('/api/items');
-
-        if (!response.ok) {
-          throw new Error(`Could not load items from server (${response.status}).`);
-        }
-
-        const payload = await response.json();
-        items = payload.data || [];
+        items = await fetchItemsOnce();
         renderItems();
       } catch (error) {
-        console.error('[frontend] Failed to load items:', error);
-        setItemsErrorState();
-        showAlert('Failed to load posts from DB. Start backend: node script.js');
+        console.warn('[frontend] First load attempt failed. Re-resolving API base...', error);
+
+        try {
+          await resolveApiBase();
+          items = await fetchItemsOnce();
+          renderItems();
+          return;
+        } catch (retryError) {
+          console.error('[frontend] Failed to load items:', retryError);
+          setItemsErrorState();
+          showAlert(`Failed to load posts from DB (${retryError.message || 'unknown error'}). Start backend: node script.js`);
+        }
       }
     }
 
@@ -1359,34 +1991,56 @@
         });
 
         if (!response.ok) {
-          throw new Error(`Could not save report (${response.status}).`);
+          const serverMessage = await parseApiError(response, `Could not save report (${response.status}).`);
+          throw new Error(serverMessage);
         }
 
-        await response.json();
+        const payload = await response.json();
+        const savedItem = payload && payload.data ? payload.data : null;
+        const matches = savedItem && Array.isArray(savedItem.matches) ? savedItem.matches : [];
 
         document.getElementById('report-form').reset();
         setFormType('lost');
         clearPhotoPreview();
         document.getElementById('in-date').valueAsDate = new Date();
-        showAlert('Report submitted. Waiting for admin approval.');
+        showAlert('Your post is submitted and waiting for admin approval.', {
+          durationMs: 5000,
+          emphasis: true
+        });
         showView('home');
+        if (newItem.cat) {
+          document.getElementById('filter-cat').value = newItem.cat;
+        }
+        renderMatchSuggestions(matches, newItem.type);
         await loadItems();
       } catch (error) {
         console.error('[frontend] Failed to submit report:', error);
-        showAlert('Failed to save report to database.');
+        showAlert(`Failed to save report to database: ${error.message || 'unknown error'}`);
       }
     }
 
     // Utils
-    function showAlert(msg) {
+    function showAlert(msg, options = {}) {
       const box = document.getElementById('alert-box');
+      const durationMs = Number.isFinite(options.durationMs) ? Math.max(1000, options.durationMs) : 3000;
+      const emphasis = Boolean(options.emphasis);
+
+      if (alertTimerId) {
+        clearTimeout(alertTimerId);
+        alertTimerId = null;
+      }
+
+      box.classList.toggle('alert-emphasis', emphasis);
       document.getElementById('alert-msg').innerText = msg;
       box.style.opacity = '1';
       box.style.transform = 'translate(-50%, 0)';
-      setTimeout(() => {
+
+      alertTimerId = setTimeout(() => {
         box.style.opacity = '0';
         box.style.transform = 'translate(-50%, 40px)';
-      }, 3000);
+        box.classList.remove('alert-emphasis');
+        alertTimerId = null;
+      }, durationMs);
     }
 
     // Start
@@ -1398,15 +2052,18 @@
       }
 
       return new Promise((resolve) => {
+        const splashVisibleMs = 1200;
+        const splashEndMs = 1700;
+
         setTimeout(() => {
           splash.classList.add('fade-out');
-        }, 4800);
+        }, splashVisibleMs);
 
         setTimeout(() => {
           document.body.classList.remove('splash-active');
           splash.remove();
           resolve();
-        }, 5700);
+        }, splashEndMs);
       });
     }
 

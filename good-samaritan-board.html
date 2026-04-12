@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Good Samaritan Board | FoundU</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg-0: #eef3ff;
+      --bg-1: #f7fbff;
+      --surface: rgba(255, 255, 255, 0.78);
+      --border: rgba(255, 255, 255, 0.72);
+      --shadow: 0 24px 50px rgba(26, 52, 94, 0.14);
+      --indigo: #5e5ce6;
+      --blue: #0a84ff;
+      --cyan: #34c8ff;
+      --gold: #d39b11;
+      --silver: #7e8aa9;
+      --bronze: #a86a3a;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1b2540;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 14% -8%, #c8deff 0%, transparent 36%),
+        radial-gradient(circle at 90% 10%, #c7f0ff 0%, transparent 34%),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1));
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(5px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    .orb-a { width: 240px; height: 240px; right: -90px; top: 78px; background: radial-gradient(circle at 35% 35%, #8cc5ff, #4c8fff); }
+    .orb-b { width: 220px; height: 220px; left: -100px; bottom: 30px; background: radial-gradient(circle at 35% 35%, #81f1ff, #1da8ff); }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(248, 251, 255, 0.74);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.82);
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-chip {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--indigo), var(--blue));
+      box-shadow: 0 16px 28px rgba(63, 101, 223, 0.26);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: #657695;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    }
+
+    .nav-btn:hover { transform: translateY(-1px); }
+    .nav-btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--indigo), var(--blue));
+      box-shadow: 0 10px 22px rgba(74, 107, 235, 0.28);
+    }
+    .nav-btn-secondary {
+      color: #53627f;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(220, 228, 242, 0.95);
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 30px 18px 42px;
+    }
+
+    .hero {
+      margin-bottom: 20px;
+      padding: 24px 22px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(234, 244, 255, 0.74));
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow);
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      color: #5d6d8c;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 18px 0 14px;
+      flex-wrap: wrap;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: 0 10px 20px rgba(26, 52, 94, 0.08);
+      color: #43526e;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .board {
+      display: grid;
+      gap: 14px;
+    }
+
+    .board-card {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .rank-badge {
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: white;
+      font-size: 22px;
+      font-weight: 800;
+      box-shadow: 0 14px 28px rgba(16, 37, 74, 0.16);
+    }
+
+    .rank-1 { background: linear-gradient(135deg, #f7c948, #d79f14); }
+    .rank-2 { background: linear-gradient(135deg, #dfe7f7, #aebbd3); }
+    .rank-3 { background: linear-gradient(135deg, #efb07d, #b87333); }
+    .rank-other { background: linear-gradient(135deg, var(--indigo), var(--blue)); }
+
+    .finder-name {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 4px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .finder-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      align-items: center;
+      color: #61708c;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-top { background: rgba(211, 155, 17, 0.12); color: var(--gold); }
+    .badge-community { background: rgba(10, 132, 255, 0.12); color: var(--blue); }
+    .badge-trusted { background: rgba(48, 209, 88, 0.12); color: #138a3f; }
+
+    .return-count {
+      text-align: right;
+      min-width: 120px;
+    }
+
+    .return-count .count {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .return-count .label {
+      margin: 6px 0 0;
+      color: #5d6d8c;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .return-count.highlight .count {
+      color: #1f6d3d;
+    }
+
+    .empty-state {
+      padding: 30px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow);
+      color: #55637c;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .loading {
+      padding: 24px;
+      color: #5d6d8c;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner {
+        align-items: stretch;
+      }
+
+      .brand {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .nav-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-btn {
+        text-align: center;
+        min-height: 44px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .nav-btn-primary {
+        grid-column: 1 / -1;
+      }
+
+      .board-card {
+        grid-template-columns: 56px minmax(0, 1fr);
+      }
+
+      .return-count {
+        grid-column: 1 / -1;
+        text-align: left;
+        min-width: 0;
+        padding-top: 6px;
+        border-top: 1px solid rgba(214, 223, 239, 0.8);
+      }
+    }
+
+    @media (max-width: 425px) {
+      main {
+        padding: 20px 12px 30px;
+      }
+
+      .hero {
+        padding: 18px 16px;
+        border-radius: 18px;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .controls {
+        gap: 8px;
+      }
+
+      .status-chip {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .board-card {
+        padding: 14px;
+        border-radius: 16px;
+      }
+
+      .finder-name {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 375px) {
+      .nav-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .rank-badge {
+        width: 52px;
+        height: 52px;
+        font-size: 18px;
+      }
+
+      .return-count .count {
+        font-size: 26px;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .hero h2 {
+        font-size: 26px;
+      }
+
+      .finder-name {
+        font-size: 16px;
+      }
+
+      .badge {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb-a" aria-hidden="true"></div>
+  <div class="orb orb-b" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <div class="brand-chip"><i class="fa-solid fa-hand-holding-heart"></i></div>
+        <div>
+          <h1>FoundU</h1>
+          <p>Good Samaritan Board</p>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-btn nav-btn-secondary" href="index.html">Browse</a>
+        <a class="nav-btn nav-btn-secondary" href="index.html#view-creators">Creators</a>
+        <a class="nav-btn nav-btn-primary" href="good-samaritan-board.html">Good Samaritan Board</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Good Samaritan Board</h2>
+      <p>Recognizing community members who helped return lost items.</p>
+    </section>
+
+    <div class="controls">
+      <div class="status-chip"><i class="fa-solid fa-star"></i><span id="leaderboard-count">Loading leaderboard...</span></div>
+      <div class="status-chip"><i class="fa-solid fa-shield-heart"></i><span>Updated from completed return records</span></div>
+    </div>
+
+    <section id="board" class="board" aria-live="polite">
+      <div class="loading">Loading community champions...</div>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE_STORAGE_KEY = 'founduApiBase';
+    let API_BASE = '';
+
+    function getApiBaseFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = (params.get('apiBase') || params.get('api') || params.get('api_url') || '').trim();
+      if (!raw) {
+        return '';
+      }
+
+      return raw.replace(/\/$/, '');
+    }
+
+    function getApiCandidates() {
+      const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+      const host = window.location.hostname;
+      const savedBase = (localStorage.getItem(API_BASE_STORAGE_KEY) || '').trim();
+      const urlBase = getApiBaseFromUrl();
+      const sameOriginBase = window.location.origin || '';
+      const isLocalPage = host === 'localhost' || host === '127.0.0.1';
+      const candidates = isLocalPage
+        ? [urlBase, savedBase, sameOriginBase, `${protocol}//${host}:3000`, 'http://127.0.0.1:3000', 'http://localhost:3000', '']
+        : [urlBase, savedBase, sameOriginBase, ''];
+
+      if (host) {
+        candidates.push(`${protocol}//${host}:3000`);
+      }
+
+      const unique = [];
+      const seen = new Set();
+      for (const candidate of candidates) {
+        if (candidate === null || candidate === undefined) continue;
+        const normalized = candidate.toString().trim().replace(/\/$/, '');
+        const key = normalized;
+        if (!key) continue;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        unique.push(normalized);
+      }
+      return unique;
+    }
+
+    async function tryApiBase(base) {
+      const response = await fetch(`${base}/api/health`, { credentials: 'include' });
+      if (!response.ok) {
+        throw new Error(`API health check failed (${response.status})`);
+      }
+      API_BASE = base;
+      localStorage.setItem(API_BASE_STORAGE_KEY, base);
+    }
+
+    async function resolveApiBase() {
+      const candidates = getApiCandidates();
+      const errors = [];
+      for (const base of candidates) {
+        try {
+          await tryApiBase(base);
+          return;
+        } catch (error) {
+          errors.push(`${base}: ${error.message}`);
+        }
+      }
+
+      console.error('[good-samaritan-board] API auto-detection failed. Tried:', errors);
+
+      throw new Error('Cannot connect to API server. Start backend on http://127.0.0.1:3000 (run: npm run start).');
+    }
+
+    async function loadBoard() {
+      const board = document.getElementById('board');
+      const count = document.getElementById('leaderboard-count');
+      board.innerHTML = '<div class="loading">Loading community champions...</div>';
+
+      try {
+        await resolveApiBase();
+        const response = await fetch(`${API_BASE}/api/good-samaritans`, { credentials: 'include' });
+        if (!response.ok) {
+          throw new Error(`Failed to load leaderboard (${response.status})`);
+        }
+
+        const payload = await response.json();
+        const rows = Array.isArray(payload.data) ? payload.data : [];
+        count.textContent = rows.length > 0 ? `${rows.length} recognized finder(s)` : 'No recognitions yet';
+
+        if (rows.length === 0) {
+          board.innerHTML = '<div class="empty-state">No completed returns have been issued yet. Once a certificate is issued, the finder will appear here.</div>';
+          return;
+        }
+
+        board.innerHTML = rows.map((entry, index) => {
+          const rank = index + 1;
+          const total = Number(entry.total_returns || 0);
+          const lastReturn = entry.last_return_date ? new Date(entry.last_return_date).toLocaleDateString() : 'N/A';
+          const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
+          const badge = total >= 3 ? 'Trusted Samaritan' : rank === 1 ? 'Top Finder' : 'Community Helper';
+          const badgeClass = total >= 3 ? 'badge-trusted' : rank === 1 ? 'badge-top' : 'badge-community';
+          const countHighlight = total >= 3 ? 'highlight' : '';
+          const medal = rank === 1 ? 'fa-medal' : rank === 2 ? 'fa-award' : rank === 3 ? 'fa-certificate' : 'fa-heart';
+
+          return `
+            <article class="board-card">
+              <div class="rank-badge ${rankClass}">${rank}</div>
+              <div>
+                <div class="finder-name">
+                  <span>${escapeHtml(entry.finder_name || 'Anonymous Finder')}</span>
+                  <span class="badge ${badgeClass}">${badge}</span>
+                </div>
+                <div class="finder-meta">
+                  <span><i class="fa-solid ${medal}"></i> Community recognition</span>
+                  <span><i class="fa-solid fa-clock"></i> Last return: ${escapeHtml(lastReturn)}</span>
+                </div>
+              </div>
+              <div class="return-count ${countHighlight}">
+                <p class="count">${total}</p>
+                <p class="label">item${total === 1 ? '' : 's'} returned</p>
+              </div>
+            </article>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('[good-samaritan-board] Failed to load leaderboard:', error);
+        count.textContent = 'Leaderboard unavailable';
+        board.innerHTML = `<div class="empty-state">Unable to load the Good Samaritan Board right now. ${escapeHtml(error.message || 'Please try again later.')}</div>`;
+      }
+    }
+
+    function escapeHtml(value) {
+      return (value || '')
+        .toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadBoard();
+      setInterval(loadBoard, 30000);
+    });
+  </script>
+</body>
+</html>
