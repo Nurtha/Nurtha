@@ -907,6 +907,148 @@
       text-transform: uppercase;
     }
 
+    .samaritan-hero {
+      margin-bottom: 1.25rem;
+      padding: 1.5rem 1.4rem;
+      border-radius: 1.65rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(236, 244, 255, 0.78));
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: 0 18px 38px rgba(27, 49, 112, 0.12);
+    }
+
+    .samaritan-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 18px 0 14px;
+      flex-wrap: wrap;
+    }
+
+    .samaritan-status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: 0 10px 20px rgba(27, 49, 112, 0.1);
+      color: #3a4e75;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .samaritan-board {
+      display: grid;
+      gap: 14px;
+    }
+
+    .samaritan-card {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      box-shadow: 0 24px 50px rgba(27, 49, 112, 0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .samaritan-rank-badge {
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: white;
+      font-size: 22px;
+      font-weight: 800;
+      box-shadow: 0 14px 28px rgba(16, 37, 74, 0.16);
+    }
+
+    .samaritan-rank-1 { background: linear-gradient(135deg, #f7c948, #d79f14); }
+    .samaritan-rank-2 { background: linear-gradient(135deg, #dfe7f7, #aebbd3); }
+    .samaritan-rank-3 { background: linear-gradient(135deg, #efb07d, #b87333); }
+    .samaritan-rank-other { background: linear-gradient(135deg, var(--ios-indigo), var(--ios-blue)); }
+
+    .samaritan-finder-name {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 4px;
+      font-family: 'Sora', 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .samaritan-finder-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      align-items: center;
+      color: #4e6288;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .samaritan-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .samaritan-badge-top { background: rgba(211, 155, 17, 0.12); color: #a7c4ff; }
+    .samaritan-badge-community { background: rgba(10, 132, 255, 0.12); color: #0a84ff; }
+    .samaritan-badge-trusted { background: rgba(48, 209, 88, 0.12); color: #138a3f; }
+
+    .samaritan-return-count {
+      text-align: right;
+      min-width: 120px;
+    }
+
+    .samaritan-return-count .count {
+      margin: 0;
+      font-family: 'Sora', 'DM Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .samaritan-return-count .label {
+      margin: 6px 0 0;
+      color: #5d6d8c;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .samaritan-return-count.highlight .count {
+      color: #1f6d3d;
+    }
+
+    .samaritan-empty-state,
+    .samaritan-loading {
+      padding: 24px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      box-shadow: 0 20px 44px rgba(27, 49, 112, 0.1);
+      color: #55637c;
+      text-align: center;
+      font-weight: 600;
+    }
+
     @media (max-width: 1024px) {
       .item-card {
         border-radius: 1.35rem;
@@ -953,6 +1095,23 @@
         width: 82px;
         height: 82px;
         font-size: 2rem;
+      }
+
+      .samaritan-card {
+        grid-template-columns: 56px minmax(0, 1fr);
+      }
+
+      .samaritan-return-count {
+        grid-column: 1 / -1;
+        text-align: left;
+        min-width: 0;
+        padding-top: 6px;
+        border-top: 1px solid rgba(214, 223, 239, 0.8);
+      }
+
+      .samaritan-status-chip {
+        width: 100%;
+        justify-content: center;
       }
 
       .ownership-actions {
@@ -1012,6 +1171,15 @@
         border-radius: 1.2rem;
       }
 
+      .samaritan-card {
+        padding: 14px;
+        border-radius: 16px;
+      }
+
+      .samaritan-finder-name {
+        font-size: 18px;
+      }
+
       .creator-card {
         border-radius: 1.35rem;
         padding: 1.2rem;
@@ -1039,7 +1207,8 @@
 
       #view-home,
       #view-report,
-      #view-creators {
+      #view-creators,
+      #view-good-samaritan {
         gap: 1rem;
       }
     }
@@ -1055,6 +1224,10 @@
 
       .creator-contact {
         font-size: 0.68rem;
+      }
+
+      .samaritan-hero h1 {
+        font-size: 1.4rem;
       }
     }
 
@@ -1149,7 +1322,7 @@
             class="nav-btn nav-btn-inactive">
             Creators
           </button>
-          <button onclick="window.location.href='good-samaritan-board.html'" id="btn-good-samaritan"
+          <button onclick="showView('good-samaritan')" id="btn-good-samaritan"
             class="nav-btn nav-btn-inactive">
             Good Samaritan Board
           </button>
@@ -1354,6 +1527,22 @@
         <!-- Creators injected here -->
       </div>
     </div>
+
+    <div id="view-good-samaritan" class="view-content space-y-4">
+      <section class="samaritan-hero">
+        <h1 class="hero-title font-bold text-slate-900">Good Samaritan Board</h1>
+        <p class="hero-sub mt-2">Recognizing community members who helped return lost items.</p>
+      </section>
+
+      <div class="samaritan-controls">
+        <div class="samaritan-status-chip"><i class="fa-solid fa-star"></i><span id="leaderboard-count">Loading leaderboard...</span></div>
+        <div class="samaritan-status-chip"><i class="fa-solid fa-shield-heart"></i><span>Updated from completed return records</span></div>
+      </div>
+
+      <section id="samaritan-board" class="samaritan-board" aria-live="polite">
+        <div class="samaritan-loading">Loading community champions...</div>
+      </section>
+    </div>
   </main>
 
   <!-- Success Feedback -->
@@ -1547,6 +1736,7 @@
     let latestMatchSuggestions = [];
     let latestMatchSourceType = 'lost';
     let alertTimerId = null;
+    let goodSamaritanRefreshId = null;
 
     let photoBase64 = '';
 
@@ -1745,19 +1935,24 @@
     // View Logic
     function showView(view) {
       document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
-      document.getElementById('view-' + view).classList.add('active');
+      const targetView = document.getElementById('view-' + view) || document.getElementById('view-home');
+      targetView.classList.add('active');
+      const normalizedView = targetView.id.replace('view-', '');
 
       // Style buttons
-      const isHome = view === 'home';
-      const isReport = view === 'report';
-      const isCreators = view === 'creators';
+      const isHome = normalizedView === 'home';
+      const isReport = normalizedView === 'report';
+      const isCreators = normalizedView === 'creators';
+      const isGoodSamaritan = normalizedView === 'good-samaritan';
       
       document.getElementById('btn-home').className = isHome ? 'nav-btn nav-btn-active' : 'nav-btn nav-btn-inactive';
       document.getElementById('btn-report').className = isReport ? 'nav-btn nav-btn-active' : 'nav-btn nav-btn-inactive';
       document.getElementById('btn-creators').className = isCreators ? 'nav-btn nav-btn-active' : 'nav-btn nav-btn-inactive';
+      document.getElementById('btn-good-samaritan').className = isGoodSamaritan ? 'nav-btn nav-btn-active' : 'nav-btn nav-btn-inactive';
 
       if (isHome) renderItems();
       if (isCreators) renderCreators();
+      if (isGoodSamaritan) loadGoodSamaritanBoard();
     }
 
     function setFormType(type) {
@@ -2032,6 +2227,67 @@
           <div class="creator-meta">Age: ${creator.age}</div>
         </div>
       `).join('');
+    }
+
+    async function loadGoodSamaritanBoard() {
+      const board = document.getElementById('samaritan-board');
+      const count = document.getElementById('leaderboard-count');
+      if (!board || !count) {
+        return;
+      }
+
+      board.innerHTML = '<div class="samaritan-loading">Loading community champions...</div>';
+
+      try {
+        const response = await apiFetch('/api/good-samaritans');
+        if (!response.ok) {
+          throw new Error(`Failed to load leaderboard (${response.status})`);
+        }
+
+        const payload = await response.json();
+        const rows = Array.isArray(payload.data) ? payload.data : [];
+        count.textContent = rows.length > 0 ? `${rows.length} recognized finder(s)` : 'No recognitions yet';
+
+        if (rows.length === 0) {
+          board.innerHTML = '<div class="samaritan-empty-state">No completed returns have been issued yet. Once a certificate is issued, the finder will appear here.</div>';
+          return;
+        }
+
+        board.innerHTML = rows.map((entry, index) => {
+          const rank = index + 1;
+          const total = Number(entry.total_returns || 0);
+          const lastReturn = entry.last_return_date ? new Date(entry.last_return_date).toLocaleDateString() : 'N/A';
+          const rankClass = rank === 1 ? 'samaritan-rank-1' : rank === 2 ? 'samaritan-rank-2' : rank === 3 ? 'samaritan-rank-3' : 'samaritan-rank-other';
+          const badge = total >= 3 ? 'Trusted Samaritan' : rank === 1 ? 'Top Finder' : 'Community Helper';
+          const badgeClass = total >= 3 ? 'samaritan-badge-trusted' : rank === 1 ? 'samaritan-badge-top' : 'samaritan-badge-community';
+          const countHighlight = total >= 3 ? 'highlight' : '';
+          const medal = rank === 1 ? 'fa-medal' : rank === 2 ? 'fa-award' : rank === 3 ? 'fa-certificate' : 'fa-heart';
+
+          return `
+            <article class="samaritan-card">
+              <div class="samaritan-rank-badge ${rankClass}">${rank}</div>
+              <div>
+                <div class="samaritan-finder-name">
+                  <span>${escapeHtml(entry.finder_name || 'Anonymous Finder')}</span>
+                  <span class="samaritan-badge ${badgeClass}">${badge}</span>
+                </div>
+                <div class="samaritan-finder-meta">
+                  <span><i class="fa-solid ${medal}"></i> Community recognition</span>
+                  <span><i class="fa-solid fa-clock"></i> Last return: ${escapeHtml(lastReturn)}</span>
+                </div>
+              </div>
+              <div class="samaritan-return-count ${countHighlight}">
+                <p class="count">${total}</p>
+                <p class="label">item${total === 1 ? '' : 's'} returned</p>
+              </div>
+            </article>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('[frontend] Failed to load Good Samaritan board:', error);
+        count.textContent = 'Leaderboard unavailable';
+        board.innerHTML = `<div class="samaritan-empty-state">Unable to load the Good Samaritan Board right now. ${escapeHtml(error.message || 'Please try again later.')}</div>`;
+      }
     }
 
     function updateHeroStats() {
@@ -2440,6 +2696,17 @@
         showAlert(`Startup failed: ${error.message}`);
         return;
       }
+
+      if (goodSamaritanRefreshId) {
+        clearInterval(goodSamaritanRefreshId);
+      }
+      goodSamaritanRefreshId = setInterval(() => {
+        const boardView = document.getElementById('view-good-samaritan');
+        if (boardView && boardView.classList.contains('active')) {
+          loadGoodSamaritanBoard();
+        }
+      }, 30000);
+
       await introTransition;
     };
   </script>
