@@ -9,28 +9,67 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap');
 
     :root {
       --ios-bg-0: #eef3ff;
       --ios-bg-1: #f7fbff;
       --ios-blue: #0a84ff;
       --ios-indigo: #5e5ce6;
-      --ios-cyan: #34c8ff;
-      --ios-red: #ff453a;
+      --ios-cyan: #64d2ff;
+      --ios-navy: #0f1f4a;
+      --ios-ink: #1b2540;
+      --ios-gold: #a7c4ff;
+      --ios-red: #e85d5d;
       --ios-green: #30d158;
-      --ios-surface: rgba(255, 255, 255, 0.72);
-      --ios-border: rgba(255, 255, 255, 0.66);
-      --ios-shadow: 0 24px 50px rgba(26, 52, 94, 0.14);
+      --ios-surface: rgba(255, 255, 255, 0.78);
+      --ios-border: rgba(255, 255, 255, 0.72);
+      --ios-shadow: 0 24px 50px rgba(27, 49, 112, 0.14);
+      --ios-shadow-strong: 0 26px 60px rgba(15, 31, 74, 0.2);
+      --ios-brand-gradient: linear-gradient(135deg, #5e5ce6 0%, #0a84ff 52%, #64d2ff 100%);
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'DM Sans', "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-optical-sizing: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
       background:
-        radial-gradient(circle at 12% -8%, #c8deff 0%, transparent 36%),
-        radial-gradient(circle at 88% 8%, #c7f0ff 0%, transparent 34%),
+        radial-gradient(circle at 10% 0%, rgba(10, 132, 255, 0.18) 0%, transparent 34%),
+        radial-gradient(circle at 88% 6%, rgba(100, 210, 255, 0.2) 0%, transparent 32%),
+        radial-gradient(circle at 55% 110%, rgba(167, 196, 255, 0.15) 0%, transparent 34%),
         linear-gradient(180deg, var(--ios-bg-0), var(--ios-bg-1));
       min-height: 100vh;
+    }
+
+    h1,
+    h2,
+    h3,
+    .hero-title,
+    .title-text,
+    .brand-name,
+    .creator-name {
+      font-family: 'Sora', 'DM Sans', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.45) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.45) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.16), transparent 72%);
     }
 
     body.splash-active nav,
@@ -47,9 +86,9 @@
     }
 
     #alert-box.alert-emphasis {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      box-shadow: 0 22px 38px rgba(15, 23, 42, 0.38);
+      background: linear-gradient(135deg, #5e5ce6, #0a84ff);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: 0 22px 38px rgba(16, 41, 79, 0.24);
     }
 
     .title-splash {
@@ -61,9 +100,9 @@
       justify-content: center;
       overflow: hidden;
       background:
-        radial-gradient(circle at 12% 8%, rgba(131, 180, 255, 0.48) 0%, transparent 36%),
-        radial-gradient(circle at 88% 86%, rgba(97, 226, 255, 0.35) 0%, transparent 38%),
-        linear-gradient(145deg, #f7fbff, #e8f1ff 58%, #f7fdff);
+        radial-gradient(circle at 12% 8%, rgba(10, 132, 255, 0.2) 0%, transparent 36%),
+        radial-gradient(circle at 88% 86%, rgba(100, 210, 255, 0.22) 0%, transparent 38%),
+        linear-gradient(145deg, #f8fbff, #ecf3ff 58%, #f8fcff);
       transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -83,7 +122,7 @@
       width: min(66vw, 660px);
       height: min(66vw, 660px);
       border-radius: 999px;
-      background: radial-gradient(circle, rgba(96, 137, 255, 0.3), rgba(52, 200, 255, 0.16) 45%, transparent 70%);
+      background: radial-gradient(circle, rgba(10, 132, 255, 0.22), rgba(100, 210, 255, 0.15) 45%, transparent 70%);
       filter: blur(6px);
       animation: haloFloat 5.4s ease-in-out infinite;
     }
@@ -105,7 +144,7 @@
     .title-ring.ring-b {
       width: 360px;
       height: 360px;
-      border-color: rgba(125, 203, 255, 0.45);
+      border-color: rgba(100, 210, 255, 0.45);
       animation: ringSpinB 14s linear infinite;
     }
 
@@ -120,34 +159,15 @@
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: radial-gradient(circle, #ffffff 0%, #c7e5ff 55%, transparent 80%);
+      background: radial-gradient(circle, #ffffff 0%, #d6e7ff 55%, transparent 80%);
       opacity: 0;
       animation: sparkDrift 4.8s ease-in-out infinite;
     }
 
-    .spark.s1 {
-      top: 24%;
-      left: 26%;
-      animation-delay: -0.4s;
-    }
-
-    .spark.s2 {
-      top: 28%;
-      right: 30%;
-      animation-delay: -1.2s;
-    }
-
-    .spark.s3 {
-      top: 62%;
-      left: 32%;
-      animation-delay: -2.4s;
-    }
-
-    .spark.s4 {
-      top: 65%;
-      right: 28%;
-      animation-delay: -3.1s;
-    }
+    .spark.s1 { top: 24%; left: 26%; animation-delay: -0.4s; }
+    .spark.s2 { top: 28%; right: 30%; animation-delay: -1.2s; }
+    .spark.s3 { top: 62%; left: 32%; animation-delay: -2.4s; }
+    .spark.s4 { top: 65%; right: 28%; animation-delay: -3.1s; }
 
     .title-shell {
       position: relative;
@@ -168,8 +188,8 @@
       place-items: center;
       color: #fff;
       font-size: 30px;
-      background: linear-gradient(135deg, var(--ios-indigo), var(--ios-blue));
-      box-shadow: 0 20px 40px rgba(58, 99, 219, 0.33);
+      background: var(--ios-brand-gradient);
+      box-shadow: 0 20px 40px rgba(16, 41, 79, 0.24);
       animation: titlePulse 1.8s ease-in-out infinite;
     }
 
@@ -178,7 +198,7 @@
       font-weight: 700;
       color: #1a2d4f;
       letter-spacing: -0.03em;
-      background: linear-gradient(120deg, #17305c, #25549e 28%, #1a2d4f 58%, #3d72be 74%, #16315e);
+      background: linear-gradient(120deg, #17305c, #0a84ff 30%, #1a2d4f 58%, #64d2ff 78%, #16315e);
       background-size: 220% 100%;
       -webkit-background-clip: text;
       background-clip: text;
@@ -207,7 +227,7 @@
     .orb-a {
       width: 240px;
       height: 240px;
-      background: radial-gradient(circle at 35% 35%, #8cc5ff, #4c8fff);
+      background: radial-gradient(circle at 35% 35%, #9bc8ff, #0a84ff);
       top: 10%;
       right: -90px;
     }
@@ -215,14 +235,14 @@
     .orb-b {
       width: 220px;
       height: 220px;
-      background: radial-gradient(circle at 35% 35%, #81f1ff, #1da8ff);
+      background: radial-gradient(circle at 35% 35%, #c9ecff, #64d2ff);
       bottom: 6%;
       left: -90px;
       animation-delay: -4s;
     }
 
     .ios-nav {
-      background: rgba(246, 250, 255, 0.72);
+      background: rgba(248, 251, 255, 0.78);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.72);
     }
@@ -245,13 +265,13 @@
       font-size: 13px;
       font-weight: 700;
       min-height: 42px;
-      transition: 0.22s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     }
 
     .nav-btn-active {
       color: #ffffff;
-      background: linear-gradient(135deg, #0a84ff, #4ca6ff);
-      box-shadow: 0 10px 18px rgba(10, 132, 255, 0.34);
+      background: var(--ios-brand-gradient);
+      box-shadow: 0 10px 18px rgba(16, 41, 79, 0.26);
     }
 
     .nav-btn-inactive {
@@ -260,15 +280,186 @@
       border: 1px solid rgba(255, 255, 255, 0.8);
     }
 
+    .nav-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .nav-btn-inactive:hover {
+      color: #2f4368;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 8px 16px rgba(27, 49, 112, 0.12);
+    }
+
+    .nav-btn:focus-visible {
+      outline: 3px solid rgba(31, 119, 255, 0.28);
+      outline-offset: 2px;
+    }
+
     .hero-title {
       font-size: clamp(2rem, 4.4vw, 3.3rem);
       line-height: 1.06;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.036em;
+      font-weight: 800;
     }
 
     .hero-sub {
-      color: #5e6d8d;
+      color: #4f6286;
       font-weight: 500;
+    }
+
+    .hero-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      background:
+        radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.68) 36%, transparent 64%),
+        linear-gradient(140deg, rgba(255, 255, 255, 0.84), rgba(235, 245, 255, 0.7) 44%, rgba(215, 235, 255, 0.62));
+      box-shadow: 0 26px 55px rgba(28, 54, 110, 0.16);
+      isolation: isolate;
+    }
+
+    .hero-shell::before,
+    .hero-shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(2px);
+    }
+
+    .hero-shell::before {
+      width: 230px;
+      height: 230px;
+      right: -70px;
+      top: -80px;
+      background: radial-gradient(circle at 30% 35%, rgba(94, 92, 230, 0.34), rgba(10, 132, 255, 0.12) 55%, transparent 72%);
+      animation: heroGlowPulseA 11s ease-in-out infinite;
+    }
+
+    .hero-shell::after {
+      width: 280px;
+      height: 280px;
+      left: -120px;
+      bottom: -150px;
+      background: radial-gradient(circle at 60% 35%, rgba(100, 210, 255, 0.36), rgba(10, 132, 255, 0.12) 58%, transparent 76%);
+      animation: heroGlowPulseB 13s ease-in-out infinite;
+    }
+
+    .hero-shape {
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 16px 24px rgba(16, 41, 79, 0.12);
+    }
+
+    .hero-shape-a {
+      right: 22%;
+      top: 18%;
+      width: 68px;
+      height: 68px;
+      background: linear-gradient(135deg, rgba(94, 92, 230, 0.18), rgba(10, 132, 255, 0.28));
+      transform: rotate(-14deg);
+      animation: heroShapeFloatA 8.4s ease-in-out infinite;
+    }
+
+    .hero-shape-b {
+      right: 8%;
+      top: 26%;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(100, 210, 255, 0.36), rgba(167, 196, 255, 0.24));
+      animation: heroShapeFloatB 9.8s ease-in-out infinite;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f365c;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(228, 240, 255, 0.8));
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 20px rgba(16, 41, 79, 0.1);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(118px, 1fr));
+      gap: 10px;
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .hero-metric {
+      position: relative;
+      z-index: 1;
+      padding: 12px 12px 11px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(233, 244, 255, 0.76));
+      box-shadow: 0 10px 22px rgba(16, 41, 79, 0.12);
+    }
+
+    .hero-metric-value {
+      font-family: 'Sora', 'DM Sans', sans-serif;
+      font-size: clamp(1.35rem, 2.1vw, 1.6rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #143366;
+      margin-bottom: 3px;
+    }
+
+    .hero-metric-label {
+      font-size: 0.79rem;
+      line-height: 1.2;
+      color: #4a638d;
+      font-weight: 700;
+    }
+
+    .hero-metric-status {
+      background: linear-gradient(145deg, rgba(225, 248, 233, 0.92), rgba(209, 244, 220, 0.8));
+      border-color: rgba(184, 231, 196, 0.9);
+    }
+
+    .hero-metric-status .hero-metric-value {
+      color: #0c8d42;
+      font-size: 1.12rem;
+      letter-spacing: 0;
+    }
+
+    .hero-search-wrap {
+      position: relative;
+      z-index: 1;
+      margin-top: 1.15rem;
+      max-width: 44rem;
+    }
+
+    #search-bar {
+      font-weight: 500;
+      color: #203b65;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(242, 248, 255, 0.9)) !important;
+      border-color: rgba(190, 212, 242, 0.95) !important;
+      box-shadow: 0 12px 24px rgba(17, 47, 98, 0.1);
+    }
+
+    #search-bar::placeholder {
+      color: #7b90b3;
     }
 
     .ios-input,
@@ -287,8 +478,8 @@
     #view-report input:focus,
     #view-report select:focus,
     #view-report textarea:focus {
-      border-color: rgba(10, 132, 255, 0.6) !important;
-      box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.16);
+      border-color: rgba(31, 119, 255, 0.68) !important;
+      box-shadow: 0 0 0 4px rgba(31, 119, 255, 0.2);
       outline: none;
     }
 
@@ -387,11 +578,17 @@
     .ownership-btn-submit {
       color: #fff;
       background: linear-gradient(135deg, var(--ios-indigo), var(--ios-blue));
-      box-shadow: 0 12px 22px rgba(52, 97, 224, 0.28);
+      box-shadow: 0 12px 22px rgba(27, 49, 112, 0.28);
     }
 
     .ownership-btn-submit:hover {
-      box-shadow: 0 15px 24px rgba(52, 97, 224, 0.34);
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(27, 49, 112, 0.34);
+    }
+
+    .ownership-btn:focus-visible {
+      outline: 3px solid rgba(31, 119, 255, 0.28);
+      outline-offset: 2px;
     }
 
     .item-card {
@@ -403,6 +600,7 @@
 
     .item-card:hover {
       transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 22px 40px rgba(27, 49, 112, 0.18);
     }
 
 
@@ -520,10 +718,58 @@
       }
     }
 
+    @keyframes heroShapeFloatA {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-14deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(-9deg);
+      }
+    }
+
+    @keyframes heroShapeFloatB {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-8px) scale(1.06);
+      }
+    }
+
+    @keyframes heroGlowPulseA {
+      0%,
+      100% {
+        opacity: 0.9;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translate3d(-4px, 5px, 0) scale(1.06);
+      }
+    }
+
+    @keyframes heroGlowPulseB {
+      0%,
+      100% {
+        opacity: 0.9;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translate3d(6px, -4px, 0) scale(1.05);
+      }
+    }
+
     .creator-card {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      background: rgba(255, 255, 255, 0.84);
-      border: 1px solid rgba(255, 255, 255, 0.75);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(249, 252, 255, 0.82));
+      border: 1px solid rgba(255, 255, 255, 0.78);
       box-shadow: 0 16px 34px rgba(20, 46, 90, 0.12);
       display: flex;
       flex-direction: column;
@@ -531,6 +777,17 @@
       text-align: center;
       padding: 2rem;
       border-radius: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .creator-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 6px;
+      background: var(--ios-brand-gradient);
     }
 
     .creator-card:hover {
@@ -549,7 +806,7 @@
       color: white;
       font-size: 2.5rem;
       margin-bottom: 1.2rem;
-      box-shadow: 0 12px 24px rgba(10, 132, 255, 0.3);
+      box-shadow: 0 12px 24px rgba(31, 119, 255, 0.3);
       overflow: hidden;
     }
 
@@ -562,14 +819,15 @@
 
     .creator-name {
       font-size: 1.1rem;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: -0.01em;
       color: #1e293b;
       margin-bottom: 0.5rem;
     }
 
     .creator-position {
       font-size: 0.82rem;
-      color: #0a84ff;
+      color: var(--ios-blue);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -587,8 +845,11 @@
 
     .creator-meta {
       font-size: 0.8rem;
-      color: #94a3b8;
+      color: #64748b;
       margin-bottom: 0.5rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(16, 41, 79, 0.06);
     }
 
     .creator-contact {
@@ -614,7 +875,7 @@
       content: '•';
       position: absolute;
       left: 0;
-      color: #0a84ff;
+      color: var(--ios-blue);
       font-weight: 800;
     }
 
@@ -630,6 +891,20 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+    }
+
+    .creator-section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(16, 41, 79, 0.06);
+      color: var(--ios-navy);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     @media (max-width: 1024px) {
@@ -692,6 +967,41 @@
     @media (max-width: 425px) {
       .hero-title {
         font-size: 1.75rem;
+      }
+
+      .hero-shell {
+        border-radius: 24px;
+      }
+
+      .hero-metrics {
+        gap: 8px;
+      }
+
+      .hero-metric {
+        padding: 10px 9px;
+        border-radius: 14px;
+      }
+
+      .hero-metric-value {
+        font-size: 1.08rem;
+      }
+
+      .hero-metric-label {
+        font-size: 0.72rem;
+      }
+
+      .hero-shape-a {
+        width: 48px;
+        height: 48px;
+        right: 24%;
+        top: 13%;
+      }
+
+      .hero-shape-b {
+        width: 38px;
+        height: 38px;
+        right: 10%;
+        top: 18%;
       }
 
       .hero-sub {
@@ -766,6 +1076,9 @@
       .title-shell,
       .title-text,
       .spark,
+      .hero-shell::before,
+      .hero-shell::after,
+      .hero-shape,
       .ownership-dialog {
         animation: none !important;
       }
@@ -800,7 +1113,7 @@
         <i class="fas fa-hand-holding-heart"></i>
       </div>
       <h1 class="title-text">FoundU</h1>
-      <p class="title-subtext">Lost and Found Platform</p>
+      <p class="title-subtext">Campus Lost and Found Network</p>
     </div>
   </div>
 
@@ -816,7 +1129,10 @@
             <i class="fas fa-hand-holding-heart"></i>
           </div>
           <a href="Login.html">
-            <span class="text-xl font-bold tracking-tight text-slate-800">FoundU</span>
+            <span class="brand-lockup">
+              <span class="brand-name">FoundU</span>
+              <span class="brand-tagline">Campus lost and found</span>
+            </span>
           </a>
         </div>
 
@@ -846,15 +1162,35 @@
 
     <!-- HOME VIEW -->
     <div id="view-home" class="view-content active space-y-6">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 class="hero-title font-bold text-slate-900">Find Fast. Return Smarter.</h1>
-          <p class="hero-sub">PRMSU Lost and Found</p>
+      <div class="hero-shell p-6 md:p-8">
+        <span class="hero-shape hero-shape-a" aria-hidden="true"></span>
+        <span class="hero-shape hero-shape-b" aria-hidden="true"></span>
+        <div class="hero-copy flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div class="max-w-2xl space-y-3">
+            <span class="brand-pill"><i class="fas fa-location-dot"></i> PRMSU FoundU</span>
+            <h1 class="hero-title font-bold text-slate-900">Find fast. Return with confidence.</h1>
+            <p class="hero-sub text-base md:text-lg max-w-xl">A campus-focused lost and found system built for honest handoffs, verified claims, and quicker reunions.</p>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="hero-metric">
+              <div class="hero-metric-value" id="hero-stat-lost">0</div>
+              <div class="hero-metric-label">Lost posts</div>
+            </div>
+            <div class="hero-metric">
+              <div class="hero-metric-value" id="hero-stat-found">0</div>
+              <div class="hero-metric-label">Found posts</div>
+            </div>
+            <div class="hero-metric hero-metric-status">
+              <div class="hero-metric-value" id="hero-stat-match">Live</div>
+              <div class="hero-metric-label">Board status</div>
+            </div>
+          </div>
         </div>
 
-        <div class="relative w-full md:w-80">
+        <div class="hero-search-wrap">
           <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input type="text" id="search-bar" oninput="renderItems()" placeholder="Search items or locations..."
+          <input type="text" id="search-bar" oninput="renderItems()" placeholder="Search item names, places, or keywords..."
             class="ios-input w-full pl-10 pr-4 py-2 outline-none transition-all shadow-sm">
         </div>
       </div>
@@ -1009,8 +1345,9 @@
     <!-- CREATORS VIEW -->
     <div id="view-creators" class="view-content space-y-8">
       <div>
+        <span class="creator-section-eyebrow mb-3">Brand team</span>
         <h1 class="hero-title font-bold text-slate-900 mb-2">Meet Our Team</h1>
-        <p class="hero-sub">The talented people behind FoundU</p>
+        <p class="hero-sub">The people shaping the FoundU campus experience</p>
       </div>
 
       <div id="creators-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1697,6 +2034,27 @@
       `).join('');
     }
 
+    function updateHeroStats() {
+      const lostCount = items.filter((item) => item.type === 'lost').length;
+      const foundCount = items.filter((item) => item.type === 'found').length;
+
+      const lostNode = document.getElementById('hero-stat-lost');
+      const foundNode = document.getElementById('hero-stat-found');
+      const statusNode = document.getElementById('hero-stat-match');
+
+      if (lostNode) {
+        lostNode.textContent = String(lostCount);
+      }
+
+      if (foundNode) {
+        foundNode.textContent = String(foundCount);
+      }
+
+      if (statusNode) {
+        statusNode.textContent = 'Live';
+      }
+    }
+
     async function pickProofImage() {
       return new Promise((resolve) => {
         const input = document.createElement('input');
@@ -1951,6 +2309,7 @@
       setItemsLoadingState(true);
       try {
         items = await fetchItemsOnce();
+        updateHeroStats();
         renderItems();
       } catch (error) {
         console.warn('[frontend] First load attempt failed. Re-resolving API base...', error);
@@ -1958,6 +2317,7 @@
         try {
           await resolveApiBase();
           items = await fetchItemsOnce();
+          updateHeroStats();
           renderItems();
           return;
         } catch (retryError) {

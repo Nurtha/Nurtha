@@ -7,32 +7,44 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap');
 
     :root {
       --bg-0: #eef3ff;
       --bg-1: #f7fbff;
-      --surface: rgba(255, 255, 255, 0.78);
-      --border: rgba(255, 255, 255, 0.72);
-      --shadow: 0 24px 50px rgba(26, 52, 94, 0.14);
+      --surface: rgba(255, 255, 255, 0.82);
+      --border: rgba(255, 255, 255, 0.74);
+      --shadow: 0 24px 50px rgba(27, 49, 112, 0.12);
       --indigo: #5e5ce6;
       --blue: #0a84ff;
-      --cyan: #34c8ff;
-      --gold: #d39b11;
+      --cyan: #64d2ff;
+      --gold: #a7c4ff;
       --silver: #7e8aa9;
-      --bronze: #a86a3a;
+      --bronze: #b87333;
     }
 
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'DM Sans', "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-optical-sizing: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
       color: #1b2540;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 14% -8%, #c8deff 0%, transparent 36%),
-        radial-gradient(circle at 90% 10%, #c7f0ff 0%, transparent 34%),
+        radial-gradient(circle at 14% -8%, rgba(10, 132, 255, 0.18) 0%, transparent 36%),
+        radial-gradient(circle at 90% 10%, rgba(100, 210, 255, 0.16) 0%, transparent 34%),
         linear-gradient(180deg, var(--bg-0), var(--bg-1));
+    }
+
+    h1,
+    h2,
+    h3,
+    .finder-name,
+    .return-count .count {
+      font-family: 'Sora', 'DM Sans', sans-serif;
     }
 
     .orb {
@@ -44,15 +56,15 @@
       opacity: 0.5;
     }
 
-    .orb-a { width: 240px; height: 240px; right: -90px; top: 78px; background: radial-gradient(circle at 35% 35%, #8cc5ff, #4c8fff); }
-    .orb-b { width: 220px; height: 220px; left: -100px; bottom: 30px; background: radial-gradient(circle at 35% 35%, #81f1ff, #1da8ff); }
+    .orb-a { width: 240px; height: 240px; right: -90px; top: 78px; background: radial-gradient(circle at 35% 35%, #9bc8ff, #0a84ff); }
+    .orb-b { width: 220px; height: 220px; left: -100px; bottom: 30px; background: radial-gradient(circle at 35% 35%, #c9ecff, #64d2ff); }
 
     .nav {
       position: sticky;
       top: 0;
       z-index: 50;
       backdrop-filter: blur(18px);
-      background: rgba(248, 251, 255, 0.74);
+      background: rgba(248, 251, 255, 0.82);
       border-bottom: 1px solid rgba(255, 255, 255, 0.82);
     }
 
@@ -83,14 +95,14 @@
       border-radius: 14px;
       color: white;
       background: linear-gradient(135deg, var(--indigo), var(--blue));
-      box-shadow: 0 16px 28px rgba(63, 101, 223, 0.26);
+      box-shadow: 0 16px 28px rgba(16, 41, 79, 0.22);
     }
 
     .brand h1 {
       margin: 0;
       font-size: 18px;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
     }
 
     .brand p {
@@ -119,10 +131,15 @@
     }
 
     .nav-btn:hover { transform: translateY(-1px); }
+
+    .nav-btn:focus-visible {
+      outline: 3px solid rgba(10, 132, 255, 0.28);
+      outline-offset: 2px;
+    }
     .nav-btn-primary {
       color: #fff;
       background: linear-gradient(135deg, var(--indigo), var(--blue));
-      box-shadow: 0 10px 22px rgba(74, 107, 235, 0.28);
+      box-shadow: 0 10px 22px rgba(16, 41, 79, 0.2);
     }
     .nav-btn-secondary {
       color: #53627f;
@@ -142,7 +159,7 @@
       margin-bottom: 20px;
       padding: 24px 22px;
       border-radius: 26px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(234, 244, 255, 0.74));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(236, 244, 255, 0.74));
       border: 1px solid rgba(255, 255, 255, 0.8);
       box-shadow: var(--shadow);
     }
@@ -152,11 +169,12 @@
       font-size: clamp(30px, 4vw, 46px);
       line-height: 1.02;
       letter-spacing: -0.04em;
+      font-weight: 800;
     }
 
     .hero p {
       margin: 10px 0 0;
-      color: #5d6d8c;
+      color: #4e6288;
       font-size: 15px;
       font-weight: 500;
     }
@@ -178,8 +196,8 @@
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.78);
-      box-shadow: 0 10px 20px rgba(26, 52, 94, 0.08);
-      color: #43526e;
+      box-shadow: 0 10px 20px rgba(27, 49, 112, 0.1);
+      color: #3a4e75;
       font-size: 13px;
       font-weight: 700;
     }
@@ -235,7 +253,7 @@
       flex-wrap: wrap;
       gap: 10px 14px;
       align-items: center;
-      color: #61708c;
+      color: #4e6288;
       font-size: 13px;
       font-weight: 600;
     }

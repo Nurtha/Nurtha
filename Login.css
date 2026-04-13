@@ -1,12 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap');
+
 :root {
   --ios-blue: #0a84ff;
   --ios-indigo: #5e5ce6;
-  --ios-cyan: #34c8ff;
+  --ios-cyan: #64d2ff;
   --ios-green: #30d158;
-  --ios-red: #ff453a;
-  --ios-orange: #ff9f0a;
-  --ios-surface: rgba(255, 255, 255, 0.72);
-  --ios-shadow: 0 24px 48px rgba(26, 52, 94, 0.16);
+  --ios-red: #e85d5d;
+  --ios-orange: #a7c4ff;
+  --ios-surface: rgba(255, 255, 255, 0.8);
+  --ios-shadow: 0 24px 48px rgba(27, 49, 112, 0.16);
 }
 
 * {
@@ -22,12 +24,16 @@ body {
 }
 
 body {
-  font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'DM Sans', "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   color: #1b1f2a;
   background:
-    radial-gradient(circle at 8% -5%, #cddfff 0%, transparent 38%),
-    radial-gradient(circle at 94% 6%, #c8f5ff 0%, transparent 35%),
-    linear-gradient(180deg, #eef3ff 0%, #f7fbff 48%, #f5fcff 100%);
+    radial-gradient(circle at 8% -5%, rgba(10, 132, 255, 0.18) 0%, transparent 38%),
+    radial-gradient(circle at 94% 6%, rgba(100, 210, 255, 0.16) 0%, transparent 35%),
+    linear-gradient(180deg, #eef3ff 0%, #f7fbff 48%, #f7fcff 100%);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -35,6 +41,12 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
+}
+
+h1,
+h2,
+.form-label {
+  font-family: 'Sora', 'DM Sans', sans-serif;
 }
 
 .bg-orb {
@@ -50,7 +62,7 @@ body {
   height: 320px;
   top: -80px;
   right: -100px;
-  background: radial-gradient(circle at 30% 30%, #90d4ff, #4fa3ff);
+  background: radial-gradient(circle at 30% 30%, #9bc8ff, #0a84ff);
   animation: floatOrbX 16s ease-in-out infinite;
 }
 
@@ -59,7 +71,7 @@ body {
   height: 280px;
   bottom: -60px;
   left: -90px;
-  background: radial-gradient(circle at 35% 35%, #85f5ff, #0fa9ff);
+  background: radial-gradient(circle at 35% 35%, #c9ecff, #64d2ff);
   animation: floatOrbY 18s ease-in-out infinite;
 }
 
@@ -68,7 +80,7 @@ body {
   height: 240px;
   bottom: 120px;
   right: -70px;
-  background: radial-gradient(circle at 40% 40%, #b8d4ff, #7ba8ff);
+  background: radial-gradient(circle at 40% 40%, #dbe7ff, #0f1f4a);
   animation: floatOrbZ 20s ease-in-out infinite;
   opacity: 0.38;
 }
@@ -112,7 +124,7 @@ body {
 }
 
 .login-panel {
-  background: rgba(255, 255, 255, 0.76);
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.68);
   border-radius: 32px;
   padding: 40px;
@@ -148,7 +160,7 @@ body {
   justify-content: center;
   font-size: 40px;
   color: white;
-  box-shadow: 0 16px 32px rgba(94, 92, 230, 0.3);
+  box-shadow: 0 16px 32px rgba(27, 49, 112, 0.28);
   animation: bounce 0.8s ease-out;
 }
 
@@ -167,15 +179,15 @@ body {
 .logo-section h1 {
   margin: 0;
   font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
   color: #1b1f2a;
 }
 
 .tagline {
   margin: 6px 0 0;
   font-size: 14px;
-  color: #5f6f8f;
+  color: #465a83;
   font-weight: 500;
 }
 
@@ -186,14 +198,15 @@ body {
 .form-section h2 {
   margin: 0 0 8px;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: #1b1f2a;
 }
 
 .form-subtitle {
   margin: 0 0 20px;
   font-size: 14px;
-  color: #5f6f8f;
+  color: #4c628d;
   line-height: 1.5;
 }
 
@@ -212,7 +225,7 @@ body {
 .form-label {
   font-size: 13px;
   font-weight: 700;
-  color: #2f4368;
+  color: #243c65;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -250,8 +263,8 @@ body {
 
 .input-wrapper input:focus {
   background: rgba(255, 255, 255, 0.88);
-  border-color: rgba(10, 132, 255, 0.7);
-  box-shadow: 0 0 0 8px rgba(10, 132, 255, 0.12);
+  border-color: rgba(10, 132, 255, 0.62);
+  box-shadow: 0 0 0 8px rgba(10, 132, 255, 0.14);
 }
 
 .input-wrapper input:valid {
@@ -275,17 +288,22 @@ body {
   gap: 8px;
   min-height: 44px;
   transition: all 0.3s ease;
-  box-shadow: 0 16px 32px rgba(94, 92, 230, 0.3);
+  box-shadow: 0 16px 32px rgba(27, 49, 112, 0.28);
   font-family: inherit;
 }
 
 .login-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 40px rgba(94, 92, 230, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 24px 44px rgba(27, 49, 112, 0.36);
 }
 
 .login-btn:active {
   transform: translateY(0px);
+}
+
+.login-btn:focus-visible {
+  outline: 3px solid rgba(10, 132, 255, 0.32);
+  outline-offset: 2px;
 }
 
 .login-btn i {

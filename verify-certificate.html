@@ -7,21 +7,28 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; background: linear-gradient(180deg, #eef3ff, #f7fbff); color: #1b2540; }
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap');
+    body { margin: 0; font-family: 'DM Sans', "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-optical-sizing: auto; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; min-height: 100vh; background: linear-gradient(180deg, #eef3ff, #f7fbff); color: #1b2540; }
     .wrap { max-width: 860px; margin: 0 auto; padding: 28px 18px 40px; }
-    .card { background: rgba(255,255,255,0.82); border: 1px solid rgba(255,255,255,0.86); border-radius: 24px; box-shadow: 0 24px 50px rgba(26, 52, 94, 0.14); padding: 24px; backdrop-filter: blur(12px); }
+    .card { background: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.92); border-radius: 24px; box-shadow: 0 24px 50px rgba(27, 49, 112, 0.12); padding: 24px; backdrop-filter: blur(12px); }
     .hero { margin-bottom: 18px; }
-    h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.03em; }
-    p { color: #5d6d8c; }
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.04em; font-weight: 800; }
+    p { color: #4e6288; }
     .field { display: grid; gap: 6px; margin-top: 14px; }
     .field label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: #6a7894; font-weight: 800; }
-    .value { font-size: 18px; font-weight: 700; color: #18305b; }
-    .status { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #e7f8ee; color: #176a3a; font-weight: 800; margin-top: 12px; }
+    .value { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; color: #10294f; }
+    .status { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #eaf2ff; color: #2458a5; font-weight: 800; margin-top: 12px; }
     .error { background: #fff2f2; color: #b42318; }
     .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
-    a { color: #0a84ff; text-decoration: none; font-weight: 700; }
-    .muted { font-size: 14px; color: #66708a; }
+    a { color: #0a84ff; text-decoration: none; font-weight: 700; transition: color 0.2s ease; }
+    a:hover { color: #0f1f4a; }
+    a:focus-visible { outline: 3px solid rgba(10, 132, 255, 0.28); outline-offset: 2px; border-radius: 8px; }
+    .muted { font-size: 14px; color: #4f6288; }
+
+    h1,
+    .value {
+      font-family: 'Sora', 'DM Sans', sans-serif;
+    }
 
     @media (max-width: 768px) {
       .nav {

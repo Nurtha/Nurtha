@@ -1,19 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap');
+
 :root {
   --ios-bg-0: #eef3ff;
-  --ios-bg-1: #f7f9ff;
-  --ios-bg-2: #f5fcff;
-  --ios-surface: rgba(255, 255, 255, 0.72);
-  --ios-surface-strong: rgba(255, 255, 255, 0.92);
-  --ios-border: rgba(255, 255, 255, 0.65);
+  --ios-bg-1: #f7fbff;
+  --ios-bg-2: #f4f9ff;
+  --ios-surface: rgba(255, 255, 255, 0.8);
+  --ios-surface-strong: rgba(255, 255, 255, 0.96);
+  --ios-border: rgba(255, 255, 255, 0.72);
   --ios-text: #1b1f2a;
   --ios-muted: #66708a;
   --ios-blue: #0a84ff;
-  --ios-red: #ff453a;
+  --ios-red: #e85d5d;
   --ios-green: #30d158;
-  --ios-orange: #ff9f0a;
+  --ios-orange: #a7c4ff;
   --ios-violet: #5e5ce6;
   --ios-cyan: #64d2ff;
-  --ios-shadow: 0 24px 48px rgba(30, 50, 90, 0.14);
+  --ios-shadow: 0 24px 48px rgba(27, 49, 112, 0.14);
   --ios-radius-lg: 24px;
   --ios-radius-md: 18px;
   --ios-radius-sm: 12px;
@@ -24,15 +26,28 @@
 }
 
 body {
-  font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'DM Sans', "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   margin: 0;
   color: var(--ios-text);
   background:
-    radial-gradient(circle at 15% -10%, #cddfff 0%, transparent 42%),
-    radial-gradient(circle at 92% 10%, #cdf5ff 0%, transparent 38%),
+    radial-gradient(circle at 15% -10%, rgba(10, 132, 255, 0.18) 0%, transparent 42%),
+    radial-gradient(circle at 92% 10%, rgba(100, 210, 255, 0.16) 0%, transparent 38%),
     linear-gradient(180deg, var(--ios-bg-0), var(--ios-bg-1) 48%, var(--ios-bg-2));
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+.section-title,
+.value,
+.chart-card h3 {
+  font-family: 'Sora', 'DM Sans', sans-serif;
 }
 
 .bg-orb {
@@ -49,7 +64,7 @@ body {
   height: 270px;
   right: -110px;
   top: 85px;
-  background: radial-gradient(circle at 30% 30%, #90c2ff, #4f79ff);
+  background: radial-gradient(circle at 30% 30%, #9bc8ff, #0a84ff);
   animation: floatOrbA 14s ease-in-out infinite;
 }
 
@@ -58,7 +73,7 @@ body {
   height: 260px;
   left: -120px;
   bottom: 60px;
-  background: radial-gradient(circle at 35% 35%, #85f2ff, #149cff);
+  background: radial-gradient(circle at 35% 35%, #c9ecff, #64d2ff);
   animation: floatOrbB 16s ease-in-out infinite;
 }
 
@@ -72,7 +87,7 @@ body {
   flex-wrap: wrap;
   gap: 16px;
   padding: 18px 22px;
-  background: rgba(248, 251, 255, 0.68);
+  background: rgba(248, 251, 255, 0.82);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.78);
 }
@@ -80,8 +95,8 @@ body {
 .topbar h1 {
   margin: 0;
   font-size: clamp(20px, 2.8vw, 30px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .topbar-left {
@@ -91,7 +106,7 @@ body {
 
 .topbar-subtitle {
   margin: 0;
-  color: #5f6f8f;
+  color: #4a5f87;
   font-size: 13px;
   font-weight: 500;
 }
@@ -108,9 +123,9 @@ body {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
-  color: #0d6f3a;
-  background: linear-gradient(135deg, #d8fbe7, #ebfff3);
-  border: 1px solid #b4eacb;
+  color: #10458f;
+  background: linear-gradient(135deg, #e2eeff, #f0f6ff);
+  border: 1px solid #c9dcfb;
 }
 
 .tabs {
@@ -133,17 +148,23 @@ body {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .tab-btn.active {
   color: #ffffff;
-  background: linear-gradient(135deg, #0a84ff, #4ca7ff);
-  box-shadow: 0 8px 20px rgba(10, 132, 255, 0.35);
+  background: linear-gradient(135deg, #0f1f4a, #1f77ff);
+  box-shadow: 0 8px 20px rgba(16, 41, 79, 0.24);
 }
 
 .tab-btn:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.tab-btn:focus-visible {
+  outline: 3px solid rgba(31, 119, 255, 0.28);
+  outline-offset: 2px;
 }
 
 .badge {
@@ -184,28 +205,30 @@ h2 {
   margin: 0;
   font-size: clamp(18px, 2.2vw, 24px);
   letter-spacing: -0.02em;
+  font-weight: 800;
 }
 
 .section-hero {
   margin: 6px 2px 14px;
   padding: 16px 18px;
   border-radius: var(--ios-radius-lg);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(232, 244, 255, 0.7));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(236, 244, 255, 0.74));
   border: 1px solid rgba(255, 255, 255, 0.78);
   box-shadow: var(--ios-shadow);
 }
 
 .section-hero p {
   margin: 6px 0 0;
-  color: #5c6f92;
+  color: #4e638b;
   font-size: 14px;
 }
 
 .section-title {
   margin: 14px 4px 0;
-  color: #2f4368;
+  color: #203455;
   font-size: 15px;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
+  font-weight: 800;
   text-transform: uppercase;
 }
 
@@ -267,7 +290,8 @@ h2 {
 .value {
   margin: 8px 0 0;
   font-size: clamp(26px, 4vw, 34px);
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.025em;
   color: #0f2d5c;
 }
 
@@ -335,7 +359,7 @@ h2 {
   margin-top: 12px;
   padding: 8px;
   overflow-x: auto;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.76);
 }
 
 #items h2 + .table-shell {
@@ -366,8 +390,8 @@ table td {
 }
 
 table th {
-  background: linear-gradient(180deg, #edf4ff, #e6f0ff);
-  color: #4a6088;
+  background: linear-gradient(180deg, #edf4ff, #e8f1ff);
+  color: #486087;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -391,20 +415,26 @@ table tr:last-child td {
   font-weight: 700;
   min-height: 40px;
   color: #ffffff;
-  transition: transform 0.16s ease, filter 0.16s ease;
+  transition: transform 0.16s ease, filter 0.16s ease, box-shadow 0.16s ease;
 }
 
 .action-btn:hover {
-  transform: translateY(-1px) scale(1.02);
+  transform: translateY(-2px) scale(1.02);
   filter: brightness(1.05);
+  box-shadow: 0 10px 18px rgba(27, 49, 112, 0.18);
+}
+
+.action-btn:focus-visible {
+  outline: 3px solid rgba(31, 119, 255, 0.28);
+  outline-offset: 2px;
 }
 
 .action-btn.delete {
-  background: linear-gradient(135deg, #ff5d54, #ff453a);
+  background: linear-gradient(135deg, #e85d5d, #d94d4d);
 }
 
 .action-btn.approve {
-  background: linear-gradient(135deg, #34d46c, #29c85d);
+  background: linear-gradient(135deg, #1f77ff, #5cc8ff);
 }
 
 .status {
@@ -418,12 +448,12 @@ table tr:last-child td {
 }
 
 .status.pending {
-  background: #fff3d4;
-  color: #9a6a00;
+  background: #eaf2ff;
+  color: #2256a1;
 }
 
 .status.approved {
-  background: #dbfbe6;
+  background: #def7ea;
   color: #0f7a3f;
 }
 
